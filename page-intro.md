@@ -7,9 +7,20 @@ Your support helps me to:
 - **Support new DigiByte Core releases quickly**, and test them on real hardware before they reach your DigiNode
 - **Keep your downloads safe.** Every DigiByte Core release is verified before DigiNode Tools will install it.
 - **Fix bugs and help users** in the [DigiNode Tools Telegram group](https://t.me/DigiNodeTools)
-- **Add new features**, such as support for DigiAsset Core
+- **Add new features and improvements**
 - **Write more documentation and tutorials** for this website
 - **Cover hosting costs** for this website, and for the VPS servers that run my DigiByte nodes
+
+### What I hope to work on next
+
+These are some of the things I'd like to build, as time allows. The more support I have, the sooner they can happen.
+
+- **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
+- **DigiDollar support:** integrating DigiDollar into DigiNode Dashboard
+- **A terminal wallet:** send and receive DGB right from the terminal
+- **Improved wallet backup and restore**
+- **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place
+- **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
 
 ### Become a sponsor
 
