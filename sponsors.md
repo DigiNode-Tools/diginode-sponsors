@@ -22,7 +22,9 @@ Your support helps me to:
 
 ### Donate DigiByte
 
-Prefer to donate DGB? Send it to:
+Prefer to donate DGB? Scan the QR code, or send it to:
+
+![DigiByte donation QR code](https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-qr.png)
 
 `dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup`
 
