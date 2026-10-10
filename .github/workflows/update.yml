@@ -28,6 +28,7 @@ jobs:
         env:
           # Classic token with the read:org and read:user scopes, saved as a repository secret
           SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+          PENDING_FILE: ${{ runner.temp }}/pending.txt
         run: scripts/update.sh
 
       - name: Commit changes
@@ -39,6 +40,28 @@ jobs:
             git commit -m "Update sponsors"
             git push
           fi
+
+      - name: Remind Featured Sponsors to send their logo
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PENDING_FILE: ${{ runner.temp }}/pending.txt
+        run: |
+          # Logins come from the GitHub API, not from user input. Each sponsor is only ever reminded once.
+          while read -r login; do
+            [ -n "$login" ] || continue
+            title="Featured Sponsor: please send your logo, @$login"
+            if [ -n "$(gh issue list --state all --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
+              continue
+            fi
+            if [ -n "$(gh issue list --state open --label featured-sponsor --author "$login" --json number --jq '.[0].number // empty')" ]; then
+              continue   # They've already sent a request, which is waiting for them or for Olly
+            fi
+            printf '%s\n' "Hi @$login, thank you so much for becoming a Featured Sponsor of DigiNode Tools!" "" \
+              "To have your logo and link shown on [diginode.tools/sponsors](https://diginode.tools/sponsors/) and in DigiNode Tools, please fill in this short form:" "" \
+              "**[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)**" "" \
+              "If you'd rather not be featured, or have any questions, just reply here." "" "Olly" > "$RUNNER_TEMP/reminder.md"
+            gh issue create --title "$title" --body-file "$RUNNER_TEMP/reminder.md" --assignee saltedlolly
+          done < "$PENDING_FILE"
 
       - name: Raise an issue if it failed
         if: failure()

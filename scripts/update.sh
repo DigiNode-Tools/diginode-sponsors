@@ -9,6 +9,10 @@
 #   --input FILE  Read the sponsorships from FILE instead of GitHub, for testing. FILE is a JSON array in the same
 #                 format as the "nodes" returned by the GitHub API (see the query below).
 #
+# If PENDING_FILE is set, the logins of public Featured Sponsors who have been sponsoring for REMIND_DAYS days but haven't
+# been approved yet (usually because they haven't filled in the form) are written to it, one per line, so they can be
+# reminded.
+#
 # Needs a GitHub token with the read:org and read:user scopes, in SPONSORS_TOKEN (or from 'gh auth token').
 #
 # Who is listed:
@@ -21,6 +25,7 @@ set -euo pipefail
 ORG="DigiNode-Tools"
 FEATURED_MIN=300
 PATRON_MIN=100
+REMIND_DAYS=3
 RAW_URL="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main"
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
@@ -56,6 +61,7 @@ else
         sponsorshipsAsMaintainer(first: 100, activeOnly: true) {
           nodes {
             privacyLevel
+            createdAt
             isOneTimePayment
             tier { monthlyPriceInDollars isOneTime }
             sponsorEntity {
@@ -136,5 +142,18 @@ jq --arg now "$NOW" '{checked: $now, featured: .featured}' "$WORK/lists.json" > 
         fi
     fi
 } > "$ROOT/sponsors.md"
+
+# ------------------------------------------------------------------------------------------
+# Featured Sponsors who haven't been approved yet, for a reminder
+
+if [ -n "${PENDING_FILE:-}" ]; then
+    jq -r --slurpfile approved "$ROOT/featured-approved.json" --argjson featured_min "$FEATURED_MIN" \
+       --argjson days "$REMIND_DAYS" '
+        .[] | select(.privacyLevel == "PUBLIC" and (.isOneTimePayment | not) and (.tier.isOneTime | not)
+                     and .tier.monthlyPriceInDollars >= $featured_min
+                     and $approved[0][.sponsorEntity.login] == null
+                     and ((.createdAt // "1970-01-01T00:00:00Z") | fromdateiso8601) < (now - $days * 86400))
+            | .sponsorEntity.login' "$WORK/nodes.json" > "$PENDING_FILE"
+fi
 
 echo "Featured Sponsors: $(jq '.featured | length' "$WORK/lists.json")    Patrons: $(jq '.patrons | length' "$WORK/lists.json")"
