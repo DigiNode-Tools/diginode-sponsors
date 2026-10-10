@@ -17,9 +17,11 @@ These are some of the things I'd like to build, as time allows. The more support
 
 - **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
 - **DigiDollar support:** integrating DigiDollar into DigiNode Dashboard
-- **A terminal wallet:** send and receive DGB right from the terminal
+- **A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.
 - **Improved wallet backup and restore**
-- **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place
+- **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing
+- **Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display
+- **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID
 - **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
 
 ### Become a sponsor
