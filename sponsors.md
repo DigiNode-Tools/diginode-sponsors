@@ -33,7 +33,7 @@ These are some of the things I'd like to build, as time allows. The more support
 **[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)**. You can sponsor monthly or make a one-time donation, from as little as you like.
 
 - **Patron** ($100 a month): you'll be listed on this page.
-- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link are featured on this website, and shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me.
+- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link are featured on this website, and shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml).
 
 ### Donate DigiByte
 
