@@ -1,5 +1,9 @@
 # DigiNode Tools sponsors
 
+[![Sponsor DigiNode Tools](https://img.shields.io/badge/Sponsor-DigiNode%20Tools-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/DigiNode-Tools)
+
+**Find this useful?** Please consider [sponsoring me on GitHub](https://github.com/sponsors/DigiNode-Tools), so I can devote more time to DigiNode Tools and projects like this one.
+
 This repo keeps the list of [DigiNode Tools sponsors](https://github.com/sponsors/DigiNode-Tools) up to date for the [diginode.tools](https://diginode.tools) website and for DigiNode Tools itself. A GitHub Action checks the current sponsors every day.
 
 | File | What it is |
