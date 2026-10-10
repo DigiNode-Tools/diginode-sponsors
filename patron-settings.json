@@ -1,0 +1,3 @@
+{
+  "_comment": "How Patrons want to be listed on the sponsors page. Key = their GitHub login. listing: \"linked\" (name linked to their GitHub profile - the default), \"name\" (name only) or \"hidden\". Updated by the 'Change how I'm listed' form."
+}

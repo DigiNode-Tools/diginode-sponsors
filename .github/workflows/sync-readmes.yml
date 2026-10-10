@@ -1,0 +1,43 @@
+name: Sync sponsor text
+
+# Copy the shared sponsor text in snippets/ into every README listed in sync.json, whenever it changes.
+
+on:
+  push:
+    branches: [main]
+    paths: [snippets/**, sync.json]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: sync-readmes
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Update the READMEs
+        env:
+          # The same classic token as the sponsors update, which also needs the public_repo scope for this
+          GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+        run: scripts/sync-readmes.py
+
+      - name: Raise an issue if it failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Sponsor text sync failed"
+          body="Copying the sponsor text into the READMEs failed for at least one file. The most likely cause is that the SPONSORS_TOKEN secret is missing the public_repo scope - see MAINTAINING.md.
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -z "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --title "$title" --body "$body"
+          fi

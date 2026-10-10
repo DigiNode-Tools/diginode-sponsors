@@ -1,6 +1,6 @@
-name: Featured Sponsor request
+name: Premium Sponsor request
 
-# When someone fills in the "Become a Featured Sponsor" form, check they are a Featured Sponsor and that their details
+# When someone fills in the "Become a Premium Sponsor" form, check they are a Premium Sponsor and that their details
 # and logo are OK. If so, open a pull request adding them, for Olly to approve. If not, reply on the issue saying why.
 # Editing the issue checks it again.
 
@@ -24,6 +24,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install the image library (used to make the logo card)
+        run: sudo apt-get install -y --no-install-recommends python3-pil > /dev/null
 
       - name: Check the request
         env:
@@ -58,11 +61,11 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$branch"
           git add featured-approved.json logos/
-          git commit -m "Add Featured Sponsor: $sponsor"
+          git commit -m "Add Premium Sponsor: $sponsor"
           git push --force origin "$branch"
 
           { cat "$RUNNER_TEMP/message.md"; echo
-            echo "Please check the logo and website below, then merge this pull request to approve them. Their logo will appear on the website and in DigiNode Tools within a few minutes."
+            echo "Please check the logo and website below, then merge this pull request to approve them. Their logo will appear on the website, the DigiNode Tools README and in DigiNode Tools within a few minutes."
             echo; echo "If you don't want to approve them, close this pull request and refund their sponsorship."
             echo; echo "Closes #$ISSUE"; echo; echo '```json'; jq --arg l "$sponsor" '.[$l]' featured-approved.json; echo '```'
             echo; echo "![Logo](https://raw.githubusercontent.com/$GITHUB_REPOSITORY/refs/heads/$branch/$(jq -r --arg l "$sponsor" '.[$l].logo' featured-approved.json))"; } > "$RUNNER_TEMP/pr.md"
@@ -71,6 +74,6 @@ jobs:
           if [ -n "$pr" ]; then
             gh pr edit "$pr" --body-file "$RUNNER_TEMP/pr.md"
           else
-            pr=$(gh pr create --base main --head "$branch" --title "Add Featured Sponsor: $sponsor" --body-file "$RUNNER_TEMP/pr.md")
+            pr=$(gh pr create --base main --head "$branch" --title "Add Premium Sponsor: $sponsor" --body-file "$RUNNER_TEMP/pr.md")
           fi
           gh issue comment "$ISSUE" --body "Thank you! Everything checks out. Olly has been asked to approve it, and your logo will appear once he does: $pr"

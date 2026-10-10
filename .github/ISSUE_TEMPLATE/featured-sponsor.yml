@@ -1,14 +1,14 @@
-name: Become a Featured Sponsor
-description: Add your logo and link to DigiNode Tools (for $300/month Featured Sponsors)
-title: "Featured Sponsor: "
+name: Become a Premium Sponsor
+description: Add your logo and link to DigiNode Tools (for $300/month Premium Sponsors)
+title: "Premium Sponsor: "
 labels: ["featured-sponsor"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for sponsoring DigiNode Tools! Featured Sponsors are shown on the [diginode.tools/sponsors](https://diginode.tools/sponsors/) page, and in DigiNode Setup and DigiNode Dashboard.
+        Thank you for sponsoring DigiNode Tools! Premium Sponsors are shown on the [diginode.tools](https://diginode.tools) home page and [sponsors page](https://diginode.tools/sponsors/), on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), and in DigiNode Setup and DigiNode Dashboard.
 
-        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Featured Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly.
+        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Premium Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly.
 
   - type: input
     id: sponsor_account
@@ -41,7 +41,7 @@ body:
     id: logo
     attributes:
       label: Logo
-      description: Drag and drop your logo here. PNG, JPG or WebP, ideally on a transparent background, at least 400 pixels wide and under 1 MB.
+      description: Drag and drop your logo here. PNG, JPG or WebP, ideally on a transparent background, at least 400 pixels wide and under 1 MB. It will be shown on a white card, the same size as the other Premium Sponsors.
     validations:
       required: true
 

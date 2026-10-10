@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Name:    update.sh
-# Purpose: Build the DigiNode Tools sponsors page (sponsors.md) and the list of Featured Sponsors that DigiNode Setup
+# Purpose: Build the DigiNode Tools sponsors page (sponsors.md) and the list of Premium Sponsors that DigiNode Setup
 #          and DigiNode Dashboard display (featured.json), from the current GitHub Sponsors of DigiNode-Tools.
 #
 # Usage:   scripts/update.sh [--input FILE]
@@ -9,22 +9,27 @@
 #   --input FILE  Read the sponsorships from FILE instead of GitHub, for testing. FILE is a JSON array in the same
 #                 format as the "nodes" returned by the GitHub API (see the query below).
 #
-# If PENDING_FILE is set, the logins of public Featured Sponsors who have been sponsoring for REMIND_DAYS days but haven't
+# If PENDING_FILE is set, the logins of public Premium Sponsors who have been sponsoring for REMIND_DAYS days but haven't
 # been approved yet (usually because they haven't filled in the form) are written to it, one per line, so they can be
 # reminded.
 #
 # Needs a GitHub token with the read:org and read:user scopes, in SPONSORS_TOKEN (or from 'gh auth token').
 #
 # Who is listed:
-#   Featured Sponsors  - sponsoring monthly at $300 or more, AND approved by Olly in featured-approved.json
-#   Patrons            - sponsoring monthly at $100 or more (and Featured Sponsors who haven't been approved yet)
+#   Premium Sponsors  - sponsoring monthly at $300 or more, AND approved by Olly in featured-approved.json
+#   Patrons           - sponsoring monthly at $100 or more (and Premium Sponsors who haven't been approved yet), unless
+#                       they asked not to be in patron-settings.json
 #   Sponsors who chose to sponsor privately are never listed.
+#
+# (Premium Sponsors used to be called Premium Sponsors, which is why some files still use "featured".)
 
 set -euo pipefail
 
 ORG="DigiNode-Tools"
 FEATURED_MIN=300
+PREMIUM_PLACES=3
 PATRON_MIN=100
+SPONSORS_URL="https://github.com/sponsors/DigiNode-Tools"
 REMIND_DAYS=3
 RAW_URL="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main"
 
@@ -86,65 +91,88 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
-# Work out who is a Featured Sponsor and who is a Patron
+# Work out who is a Premium Sponsor and who is a Patron
 
-jq --slurpfile approved "$ROOT/featured-approved.json" --argjson featured_min "$FEATURED_MIN" \
-   --argjson patron_min "$PATRON_MIN" --arg raw "$RAW_URL" '
+jq --slurpfile approved "$ROOT/featured-approved.json" --slurpfile settings "$ROOT/patron-settings.json" \
+   --argjson featured_min "$FEATURED_MIN" --argjson patron_min "$PATRON_MIN" --arg raw "$RAW_URL" '
     ($approved[0] | del(._comment)) as $approved
+    | ($approved | keys_unsorted) as $order
+    | ($settings[0] | del(._comment)) as $settings
     | map(select(.privacyLevel == "PUBLIC" and (.isOneTimePayment | not) and (.tier.isOneTime | not)))
     | map({
         login: .sponsorEntity.login,
         name: (.sponsorEntity.name // .sponsorEntity.login),
-        url: (.sponsorEntity.websiteUrl // .sponsorEntity.url),
         github: .sponsorEntity.url,
         amount: .tier.monthlyPriceInDollars
       })
-    | sort_by(-.amount, (.name | ascii_downcase))
     | {
+        # In the order they were approved, so their place in the row stays the same
         featured: [ .[] | select(.amount >= $featured_min and $approved[.login] != null)
                     | $approved[.login] as $a
-                    | {name: ($a.name // .name), url: ($a.url // .url),
-                       logo: (if $a.logo then $raw + "/" + $a.logo else null end)} ],
-        patrons:  [ .[] | select(.amount >= $patron_min and ((.amount >= $featured_min and $approved[.login] != null) | not))
-                    | {name, url} ]
+                    | .login as $l | {order: ($order | index($l)), name: ($a.name // .name), url: ($a.url // .github),
+                       logo: (if $a.logo then $raw + "/" + $a.logo else null end), card: $a.logo} ]
+                  | sort_by(.order) | map(del(.order)),
+        # Patrons are linked to their GitHub profile, unless they have asked not to be (patron-settings.json)
+        patrons:  [ sort_by(-.amount, (.name | ascii_downcase))[]
+                    | select(.amount >= $patron_min and ((.amount >= $featured_min and $approved[.login] != null) | not))
+                    | ($settings[.login].listing // "linked") as $listing
+                    | select($listing != "hidden")
+                    | {name, url: (if $listing == "linked" then .github else null end)} ]
       }' "$WORK/nodes.json" > "$WORK/lists.json"
 
 # ------------------------------------------------------------------------------------------
-# featured.json - read by DigiNode Setup and DigiNode Dashboard. They ignore it if "checked" is more than 7 days old,
-# so a Featured Sponsor who has stopped sponsoring is never shown for long, even if this stops running.
+# featured.json - read by DigiNode Setup, DigiNode Dashboard and the diginode.tools WordPress plugin. They ignore it if
+# "checked" is more than 7 days old, so a Premium Sponsor who has stopped sponsoring is never shown for long, even if
+# this stops running.
 
-jq --arg now "$NOW" '{checked: $now, featured: .featured}' "$WORK/lists.json" > "$ROOT/featured.json"
+jq --arg now "$NOW" '{checked: $now, featured: [.featured[] | {name, url, logo}]}' "$WORK/lists.json" > "$ROOT/featured.json"
 
 # ------------------------------------------------------------------------------------------
-# sponsors.md - embedded in the diginode.tools/sponsors page. Edit page-intro.md to change the text at the top.
+# slots/premium-1.png to premium-3.png - the three Premium Sponsor places, shown in the DigiNode Tools README and on the
+# website. Each is a sponsor's logo card, or the "Your brand here" placeholder. Their links are handled by the WordPress
+# plugin (https://diginode.tools/premium-sponsor/1 etc.), which reads featured.json.
+
+mkdir -p "$ROOT/slots"
+for slot in $(seq 1 "$PREMIUM_PLACES"); do
+    card=$(jq -r --argjson i "$((slot - 1))" '.featured[$i].card // empty' "$WORK/lists.json")
+    if [ -n "$card" ] && [ -f "$ROOT/$card" ]; then
+        cp "$ROOT/$card" "$ROOT/slots/premium-$slot.png"
+    else
+        cp "$ROOT/images/premium-placeholder.png" "$ROOT/slots/premium-$slot.png"
+    fi
+done
+
+# ------------------------------------------------------------------------------------------
+# sponsors.md - embedded in the diginode.tools/sponsors page. Edit page-intro.md to change the text.
 
 {
     echo "<!-- Generated by scripts/update.sh - do not edit. Edit page-intro.md instead. -->"
     echo ""
+    echo "## Premium Sponsors"
+    echo ""
+    echo '<p align="center">'
+    for slot in $(seq 1 "$PREMIUM_PLACES"); do
+        jq -r --argjson i "$((slot - 1))" --arg raw "$RAW_URL" --arg join "$SPONSORS_URL" '
+            def html: gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;") | gsub("\""; "&quot;");
+            (.featured[$i] // null) as $s
+            | if $s and $s.card then "<a href=\"\($s.url | html)\"><img src=\"\($raw)/\($s.card)\" alt=\"\($s.name | html)\" width=\"300\"></a>"
+              else "<a href=\"\($join)\"><img src=\"\($raw)/images/premium-placeholder.png\" alt=\"Your brand here - become a Premium Sponsor\" width=\"300\"></a>"
+              end' "$WORK/lists.json"
+    done
+    echo '</p>'
+    echo ""
     cat "$ROOT/page-intro.md"
 
-    if [ "$(jq '(.featured | length) + (.patrons | length)' "$WORK/lists.json")" -gt 0 ]; then
+    if [ "$(jq '.patrons | length' "$WORK/lists.json")" -gt 0 ]; then
         echo ""
-        echo "## Thank you to my sponsors"
-
-        if [ "$(jq '.featured | length' "$WORK/lists.json")" -gt 0 ]; then
-            echo ""
-            echo "### Featured Sponsors"
-            echo ""
-            jq -r '.featured[] | if .logo then "[![\(.name)](\(.logo))](\(.url))" else "**[\(.name)](\(.url))**" end + "\n"' "$WORK/lists.json"
-        fi
-
-        if [ "$(jq '.patrons | length' "$WORK/lists.json")" -gt 0 ]; then
-            echo ""
-            echo "### Patrons"
-            echo ""
-            jq -r '.patrons[] | "- [\(.name)](\(.url))"' "$WORK/lists.json"
-        fi
+        echo "## Thank you to my amazing Patrons"
+        echo ""
+        jq -r '.patrons[] | if .url then "- [\(.name)](\(.url))" else "- \(.name)" end' "$WORK/lists.json"
     fi
 } > "$ROOT/sponsors.md"
 
 # ------------------------------------------------------------------------------------------
-# Featured Sponsors who haven't been approved yet, for a reminder
+# Premium Sponsors who haven't been approved yet, for a reminder
 
 if [ -n "${PENDING_FILE:-}" ]; then
     jq -r --slurpfile approved "$ROOT/featured-approved.json" --argjson featured_min "$FEATURED_MIN" \
@@ -156,4 +184,4 @@ if [ -n "${PENDING_FILE:-}" ]; then
             | .sponsorEntity.login' "$WORK/nodes.json" > "$PENDING_FILE"
 fi
 
-echo "Featured Sponsors: $(jq '.featured | length' "$WORK/lists.json")    Patrons: $(jq '.patrons | length' "$WORK/lists.json")"
+echo "Premium Sponsors: $(jq '.featured | length' "$WORK/lists.json")    Patrons: $(jq '.patrons | length' "$WORK/lists.json")"

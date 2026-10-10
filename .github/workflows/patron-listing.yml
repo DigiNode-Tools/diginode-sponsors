@@ -1,0 +1,65 @@
+name: Patron listing request
+
+# When a sponsor fills in the "Change how I'm listed" form, update patron-settings.json, rebuild the sponsors page, and
+# reply. No approval is needed: it only changes how the sponsor's own name is shown.
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  actions: write
+  contents: write
+  issues: write
+
+concurrency:
+  group: patron-listing   # One at a time, as they all change the same file
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: contains(github.event.issue.labels.*.name, 'patron-listing') && github.event.issue.state == 'open'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Check the request
+        env:
+          # The issue is written by the public, so it is only passed in through environment variables
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          RESULT_FILE: ${{ runner.temp }}/result.env
+        run: scripts/patron-listing.sh
+
+      - name: Save it and reply
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+          RESULT_FILE: ${{ runner.temp }}/result.env
+        run: |
+          status=$(sed -n 's/^status=//p' "$RESULT_FILE")
+          sponsor=$(sed -n 's/^sponsor=//p' "$RESULT_FILE")
+          sed -n 's/^message=//p' "$RESULT_FILE" > "$RUNNER_TEMP/message.md"
+
+          if [ "$status" = "rejected" ]; then
+            { echo "Thanks for your request. Unfortunately there's a problem:"; echo; cat "$RUNNER_TEMP/message.md"; echo
+              echo "Edit this issue to try again. If you need help, please reply here and Olly will get back to you."; } > "$RUNNER_TEMP/comment.md"
+            gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"
+            exit 0
+          fi
+
+          if [ -n "$(git status --porcelain patron-settings.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add patron-settings.json
+            git commit -m "Patron listing: $sponsor"
+            git pull --rebase --quiet && git push
+            gh workflow run update.yml   # Pushes made by this workflow don't start other workflows, so start it here
+          fi
+
+          { cat "$RUNNER_TEMP/message.md"; echo; echo "Thank you for sponsoring DigiNode Tools!"; } > "$RUNNER_TEMP/comment.md"
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"
+          gh issue close "$ISSUE" --reason completed

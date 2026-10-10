@@ -1,0 +1,29 @@
+name: Change how I'm listed
+description: For Patrons - choose how your name appears on the DigiNode Tools sponsors page
+title: "Change how I'm listed"
+labels: ["patron-listing"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for sponsoring DigiNode Tools! Patrons are listed on the [diginode.tools/sponsors](https://diginode.tools/sponsors/) page by name, linked to their GitHub profile. You can change that here, and it takes effect within a few minutes.
+
+  - type: input
+    id: sponsor_account
+    attributes:
+      label: Sponsoring GitHub account
+      description: The GitHub user or organisation that sponsors DigiNode Tools. Leave blank if it's your own account. If it's an organisation, you must be a public member of it.
+      placeholder: e.g. my-company
+    validations:
+      required: false
+
+  - type: dropdown
+    id: listing
+    attributes:
+      label: How should you be listed?
+      options:
+        - My name, linked to my GitHub profile
+        - My name only, without a link
+        - Don't list me
+    validations:
+      required: true

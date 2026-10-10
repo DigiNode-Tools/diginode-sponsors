@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
 # Name:    featured-request.sh
-# Purpose: Check a "Become a Featured Sponsor" request (a GitHub issue) and, if everything is in order, add the sponsor's
+# Purpose: Check a "Become a Premium Sponsor" request (a GitHub issue) and, if everything is in order, add the sponsor's
 #          logo to logos/ and their details to featured-approved.json, ready for Olly to approve in a pull request.
 #
 # Input (environment variables - the issue body is untrusted, so it is only ever read from here):
 #   ISSUE_AUTHOR    GitHub login of the person who opened the issue
-#   ISSUE_BODY      The issue body, as written by the "Become a Featured Sponsor" form
+#   ISSUE_BODY      The issue body, as written by the "Become a Premium Sponsor" form
 #   SPONSORS_TOKEN  GitHub token that can read DigiNode-Tools' sponsors (read:org, read:user)
 #   GH_TOKEN        GitHub token for checking organisation membership (the workflow's own token is fine)
 #   SPONSORS_FILE   Optional, for testing: read the sponsorships from this file instead of GitHub
@@ -18,7 +18,6 @@
 
 set -euo pipefail
 
-ORG="DigiNode-Tools"
 FEATURED_MIN=300
 FEATURED_PLACES=3
 MAX_LOGO_BYTES=$((1024 * 1024))
@@ -34,25 +33,13 @@ reject() {
     exit 0
 }
 
-# Read one field from the issue form. Issue forms are written as "### Label" followed by the answer.
-form_field() {
-    printf '%s\n' "$ISSUE_BODY" | tr -d '\r' | awk -v label="### $1" '
-        $0 == label { found = 1; next }
-        found && /^### / { exit }
-        found { print }' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | grep -v '^$' | grep -v '^_No response_$' || true
-}
+# shellcheck source=lib.sh
+source "$ROOT/scripts/lib.sh"
 
 # ------------------------------------------------------------------------------------------
 # Read and check the form
 
-SPONSOR=$(form_field "Sponsoring GitHub account" | head -1)
-SPONSOR="${SPONSOR#@}"
-if [ -z "$SPONSOR" ]; then
-    SPONSOR="$ISSUE_AUTHOR"
-fi
-if ! [[ "$SPONSOR" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,38})$ ]]; then
-    reject "\"Sponsoring GitHub account\" isn't a valid GitHub username or organisation."
-fi
+get_sponsor_account
 
 NAME=$(form_field "Name to display" | head -1)
 if ! [[ "$NAME" =~ ^[[:alnum:]][[:alnum:]\ .,\&\'+-]{0,39}$ ]]; then
@@ -71,53 +58,27 @@ if [ -z "$LOGO_URL" ]; then
 fi
 
 # ------------------------------------------------------------------------------------------
-# If it's an organisation, the person asking must be a public member of it
+# Is the account actively sponsoring at the Premium tier?
 
-if [ "$SPONSOR" != "$ISSUE_AUTHOR" ]; then
-    if ! gh api "orgs/$SPONSOR/public_members/$ISSUE_AUTHOR" > /dev/null 2>&1; then
-        reject "@$ISSUE_AUTHOR isn't a public member of the \`$SPONSOR\` organisation on GitHub. Please make your membership public, or ask someone who is a public member to submit the request."
-    fi
-fi
-
-# ------------------------------------------------------------------------------------------
-# Is the account actively sponsoring at the Featured tier?
-
-if [ -n "${SPONSORS_FILE:-}" ]; then
-    jq . "$SPONSORS_FILE" > "$WORK/nodes.json"
-else
-    query='query { organization(login: "'"$ORG"'") { sponsorshipsAsMaintainer(first: 100, activeOnly: true) {
-        nodes { privacyLevel isOneTimePayment tier { monthlyPriceInDollars isOneTime }
-                sponsorEntity { ... on User { login } ... on Organization { login } } } } } }'
-    curl -fsSL --retry 3 -H "Authorization: Bearer $SPONSORS_TOKEN" -H "Content-Type: application/json" \
-        -d "$(jq -n --arg q "$query" '{query: $q}')" https://api.github.com/graphql > "$WORK/response.json"
-    if jq -e '.errors' "$WORK/response.json" > /dev/null; then
-        jq -r '.errors[].message' "$WORK/response.json" >&2
-        exit 1
-    fi
-    jq '.data.organization.sponsorshipsAsMaintainer.nodes' "$WORK/response.json" > "$WORK/nodes.json"
-fi
-
-tier=$(jq -r --arg login "$SPONSOR" '[.[] | select((.sponsorEntity.login | ascii_downcase) == ($login | ascii_downcase)
-        and (.isOneTimePayment | not) and (.tier.isOneTime | not))] | first | .tier.monthlyPriceInDollars // 0' "$WORK/nodes.json")
-privacy=$(jq -r --arg login "$SPONSOR" '[.[] | select((.sponsorEntity.login | ascii_downcase) == ($login | ascii_downcase))] | first | .privacyLevel // ""' "$WORK/nodes.json")
-login=$(jq -r --arg login "$SPONSOR" '[.[] | select((.sponsorEntity.login | ascii_downcase) == ($login | ascii_downcase))] | first | .sponsorEntity.login // ""' "$WORK/nodes.json")
+get_sponsorship
+tier="$SPONSOR_TIER"
+privacy="$SPONSOR_PRIVACY"
 
 if [ "$tier" -lt "$FEATURED_MIN" ]; then
-    reject "\`$SPONSOR\` isn't currently sponsoring DigiNode Tools at the \$$FEATURED_MIN a month Featured Sponsor tier. Please [become a Featured Sponsor](https://github.com/sponsors/DigiNode-Tools) first, then edit this issue (any small change will do) to check again."
+    reject "\`$SPONSOR\` isn't currently sponsoring DigiNode Tools at the \$$FEATURED_MIN a month Premium Sponsor tier. Please [become a Premium Sponsor](https://github.com/sponsors/DigiNode-Tools) first, then edit this issue (any small change will do) to check again."
 fi
 if [ "$privacy" != "PUBLIC" ]; then
-    reject "\`$SPONSOR\`'s sponsorship is private. Featured Sponsors need a public sponsorship, so they can be shown. You can change this in your [sponsorship settings](https://github.com/sponsors/DigiNode-Tools), then edit this issue to check again."
+    reject "\`$SPONSOR\`'s sponsorship is private. Premium Sponsors need a public sponsorship, so they can be shown. You can change this in your [sponsorship settings](https://github.com/sponsors/DigiNode-Tools), then edit this issue to check again."
 fi
-SPONSOR="$login"
 
 # ------------------------------------------------------------------------------------------
-# Is there a place free? (Updating an existing Featured Sponsor's details is always allowed.)
+# Is there a place free? (Updating an existing Premium Sponsor's details is always allowed.)
 
 already=$(jq -r --arg login "$SPONSOR" 'has($login)' "$ROOT/featured-approved.json")
 if [ "$already" != "true" ]; then
     taken=$(jq '[keys[] | select(. != "_comment")] | length' "$ROOT/featured-approved.json")
     if [ "$taken" -ge "$FEATURED_PLACES" ]; then
-        reject "Sorry, all $FEATURED_PLACES Featured Sponsor places are currently taken. Olly will be in touch."
+        reject "Sorry, all $FEATURED_PLACES Premium Sponsor places are currently taken. Olly will be in touch."
     fi
 fi
 
@@ -130,25 +91,30 @@ size=$(wc -c < "$WORK/logo" | tr -d ' ')
 [ "$size" -le "$MAX_LOGO_BYTES" ] || reject "The logo is larger than 1 MB. Please upload a smaller version."
 
 case "$(file --brief --mime-type "$WORK/logo")" in
-    image/png  ) ext="png";;
-    image/jpeg ) ext="jpg";;
-    image/webp ) ext="webp";;
-    *          ) reject "The logo must be a PNG, JPG or WebP image.";;
+    image/png | image/jpeg | image/webp ) ;;
+    * ) reject "The logo must be a PNG, JPG or WebP image.";;
 esac
+
+# Turn it into a card the same size as all the others (this re-draws the image, so only the picture itself is kept)
+card_error=$("${PYTHON:-python3}" "$ROOT/scripts/make-card.py" "$WORK/logo" "$WORK/card.png" 2>&1) || {
+    [ $? -eq 2 ] && reject "$card_error"
+    echo "$card_error" >&2
+    exit 1
+}
 
 # ------------------------------------------------------------------------------------------
 # Add them (replacing any earlier logo of theirs)
 
 rm -f "$ROOT/logos/$SPONSOR".*
-cp "$WORK/logo" "$ROOT/logos/$SPONSOR.$ext"
+cp "$WORK/card.png" "$ROOT/logos/$SPONSOR.png"
 
-jq --arg login "$SPONSOR" --arg name "$NAME" --arg url "$WEBSITE" --arg logo "logos/$SPONSOR.$ext" \
+jq --arg login "$SPONSOR" --arg name "$NAME" --arg url "$WEBSITE" --arg logo "logos/$SPONSOR.png" \
     '.[$login] = {name: $name, url: $url, logo: $logo}' "$ROOT/featured-approved.json" > "$WORK/approved.json"
 cp "$WORK/approved.json" "$ROOT/featured-approved.json"
 
 {
     echo "status=ok"
     echo "sponsor=$SPONSOR"
-    echo "message=Everything checks out: \`$SPONSOR\` is a Featured Sponsor and there's a place for them."
+    echo "message=Everything checks out: \`$SPONSOR\` is a Premium Sponsor and there's a place for them."
 } > "$RESULT_FILE"
-echo "OK: $SPONSOR - $NAME - $WEBSITE - logos/$SPONSOR.$ext"
+echo "OK: $SPONSOR - $NAME - $WEBSITE - logos/$SPONSOR.png"
