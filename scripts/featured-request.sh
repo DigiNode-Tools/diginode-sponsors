@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
 # Name:    featured-request.sh
-# Purpose: Check a "Become a Premium Sponsor" request (a GitHub issue) and, if everything is in order, add the sponsor's
+# Purpose: Check a "Become a Featured Sponsor" request (a GitHub issue) and, if everything is in order, add the sponsor's
 #          logo to logos/ and their details to featured-approved.json, ready for Olly to approve in a pull request.
 #
 # Input (environment variables - the issue body is untrusted, so it is only ever read from here):
 #   ISSUE_AUTHOR    GitHub login of the person who opened the issue
-#   ISSUE_BODY      The issue body, as written by the "Become a Premium Sponsor" form
+#   ISSUE_BODY      The issue body, as written by the "Become a Featured Sponsor" form
 #   SPONSORS_TOKEN  GitHub token that can read DigiNode-Tools' sponsors (read:org, read:user)
 #   GH_TOKEN        GitHub token for checking organisation membership (the workflow's own token is fine)
 #   SPONSORS_FILE   Optional, for testing: read the sponsorships from this file instead of GitHub
@@ -58,27 +58,27 @@ if [ -z "$LOGO_URL" ]; then
 fi
 
 # ------------------------------------------------------------------------------------------
-# Is the account actively sponsoring at the Premium tier?
+# Is the account actively sponsoring at the Featured tier?
 
 get_sponsorship
 tier="$SPONSOR_TIER"
 privacy="$SPONSOR_PRIVACY"
 
 if [ "$tier" -lt "$FEATURED_MIN" ]; then
-    reject "\`$SPONSOR\` isn't currently sponsoring DigiNode Tools at the \$$FEATURED_MIN a month Premium Sponsor tier. Please [become a Premium Sponsor](https://github.com/sponsors/DigiNode-Tools) first, then edit this issue (any small change will do) to check again."
+    reject "\`$SPONSOR\` isn't currently sponsoring DigiNode Tools at the \$$FEATURED_MIN a month Featured Sponsor tier. Please [become a Featured Sponsor](https://github.com/sponsors/DigiNode-Tools) first, then edit this issue (any small change will do) to check again."
 fi
 if [ "$privacy" != "PUBLIC" ]; then
-    reject "\`$SPONSOR\`'s sponsorship is private. Premium Sponsors need a public sponsorship, so they can be shown. You can change this in your [sponsorship settings](https://github.com/sponsors/DigiNode-Tools), then edit this issue to check again."
+    reject "\`$SPONSOR\`'s sponsorship is private. Featured Sponsors need a public sponsorship, so they can be shown. You can change this in your [sponsorship settings](https://github.com/sponsors/DigiNode-Tools), then edit this issue to check again."
 fi
 
 # ------------------------------------------------------------------------------------------
-# Is there a place free? (Updating an existing Premium Sponsor's details is always allowed.)
+# Is there a place free? (Updating an existing Featured Sponsor's details is always allowed.)
 
 already=$(jq -r --arg login "$SPONSOR" 'has($login)' "$ROOT/featured-approved.json")
 if [ "$already" != "true" ]; then
     taken=$(jq '[keys[] | select(. != "_comment")] | length' "$ROOT/featured-approved.json")
     if [ "$taken" -ge "$FEATURED_PLACES" ]; then
-        reject "Sorry, all $FEATURED_PLACES Premium Sponsor places are currently taken. Olly will be in touch."
+        reject "Sorry, all $FEATURED_PLACES Featured Sponsor places are currently taken. Olly will be in touch."
     fi
 fi
 
@@ -115,6 +115,6 @@ cp "$WORK/approved.json" "$ROOT/featured-approved.json"
 {
     echo "status=ok"
     echo "sponsor=$SPONSOR"
-    echo "message=Everything checks out: \`$SPONSOR\` is a Premium Sponsor and there's a place for them."
+    echo "message=Everything checks out: \`$SPONSOR\` is a Featured Sponsor and there's a place for them."
 } > "$RESULT_FILE"
 echo "OK: $SPONSOR - $NAME - $WEBSITE - logos/$SPONSOR.png"

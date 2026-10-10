@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [featured-approved.json, patron-settings.json, page-intro.md]   # A Premium Sponsor was approved, or the page changed
+    paths: [featured-approved.json, patron-settings.json, page-intro.md]   # A Featured Sponsor was approved, or the page changed
 
 permissions:
   contents: write
@@ -41,7 +41,7 @@ jobs:
             git pull --rebase --quiet && git push
           fi
 
-      - name: Remind Premium Sponsors to send their logo
+      - name: Remind Featured Sponsors to send their logo
         env:
           GH_TOKEN: ${{ github.token }}
           PENDING_FILE: ${{ runner.temp }}/pending.txt
@@ -49,16 +49,16 @@ jobs:
           # Logins come from the GitHub API, not from user input. Each sponsor is only ever reminded once.
           while read -r login; do
             [ -n "$login" ] || continue
-            title="Premium Sponsor: please send your logo, @$login"
+            title="Featured Sponsor: please send your logo, @$login"
             if [ -n "$(gh issue list --state all --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
               continue
             fi
             if [ -n "$(gh issue list --state open --label featured-sponsor --author "$login" --json number --jq '.[0].number // empty')" ]; then
               continue   # They've already sent a request, which is waiting for them or for Olly
             fi
-            printf '%s\n' "Hi @$login, thank you so much for becoming a Premium Sponsor of DigiNode Tools!" "" \
+            printf '%s\n' "Hi @$login, thank you so much for becoming a Featured Sponsor of DigiNode Tools!" "" \
               "To have your logo and link shown on [diginode.tools/sponsors](https://diginode.tools/sponsors/) and in DigiNode Tools, please fill in this short form:" "" \
-              "**[Become a Premium Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)**" "" \
+              "**[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)**" "" \
               "If you'd rather not be featured, or have any questions, just reply here." "" "Olly" > "$RUNNER_TEMP/reminder.md"
             gh issue create --title "$title" --body-file "$RUNNER_TEMP/reminder.md" --assignee saltedlolly
           done < "$PENDING_FILE"
@@ -71,7 +71,7 @@ jobs:
           title="Sponsor update failed"
           body="The daily sponsor update failed. The most likely cause is that the SPONSORS_TOKEN secret has expired or is missing - see the README.
 
-          Premium Sponsors stop being shown in DigiNode Tools if the list hasn't been checked for 7 days.
+          Featured Sponsors stop being shown in DigiNode Tools if the list hasn't been checked for 7 days.
 
           Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           if [ -z "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then

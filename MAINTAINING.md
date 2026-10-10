@@ -2,27 +2,25 @@
 
 Notes for Olly. The [README](README.md) is for sponsors.
 
-(Premium Sponsors used to be called Featured Sponsors, which is why some files still say "featured".)
-
 ## What's where
 
 | File | What it is |
 |---|---|
 | `snippets/` | **The shared sponsor text.** Edit it here and it's copied everywhere - see below. |
 | `page-intro.md` | The text of the diginode.tools/sponsors page. **Edit this** to change it (except the parts between `sponsors:` markers, which come from `snippets/`). |
-| `featured-approved.json` | Approved Premium Sponsors. Normally updated for you - see below. |
+| `featured-approved.json` | Approved Featured Sponsors. Normally updated for you - see below. |
 | `patron-settings.json` | Patrons who asked to be listed without a link, or not at all. Updated by the "Change how I'm listed" form. |
-| `logos/` | Premium Sponsor logo cards (made by `scripts/make-card.py`). |
+| `logos/` | Featured Sponsor logo cards (made by `scripts/make-card.py`). |
 | `images/` | The "Your brand here" placeholder and the DGB donation QR code. |
 | `sponsors.md` | Generated. The full sponsors page, embedded on diginode.tools/sponsors. |
-| `featured.json` | Generated. The Premium Sponsors, read by DigiNode Setup, DigiNode Dashboard and the website plugin. |
-| `slots/` | Generated. `premium-1.png` to `premium-3.png`: each a sponsor's logo card, or the placeholder. Shown in the DigiNode Tools README. |
+| `featured.json` | Generated. The Featured Sponsors, read by DigiNode Setup, DigiNode Dashboard and the website plugin. |
+| `slots/` | Generated. `featured-1.png` to `featured-3.png`: each a sponsor's logo card, or the placeholder. Shown in the DigiNode Tools README. |
 | `sync.json` | The READMEs the shared sponsor text is copied into. |
 
 ## Actions
 
-- **Update sponsors** - every day, and whenever `featured-approved.json`, `patron-settings.json` or `page-intro.md` changes on `main`. Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Premium Sponsors who haven't sent their logo.
-- **Premium Sponsor request** (`featured-request.yml`) - checks the "Become a Premium Sponsor" form and opens a pull request.
+- **Update sponsors** - every day, and whenever `featured-approved.json`, `patron-settings.json` or `page-intro.md` changes on `main`. Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
+- **Featured Sponsor request** (`featured-request.yml`) - checks the "Become a Featured Sponsor" form and opens a pull request.
 - **Patron listing request** - handles the "Change how I'm listed" form. No approval needed.
 - **Sync sponsor text** - copies `snippets/` into every README in `sync.json` whenever a snippet changes.
 
@@ -30,15 +28,15 @@ Anything that fails opens an issue here.
 
 ## Who is listed
 
-- **Premium Sponsors** - sponsoring monthly at $300 or more, **and** approved in `featured-approved.json`. Shown on the diginode.tools home page and sponsors page, in the DigiNode Tools README, and in DigiNode Setup and DigiNode Dashboard. In the order they were approved.
+- **Featured Sponsors** - sponsoring monthly at $300 or more, **and** approved in `featured-approved.json`. Shown on the diginode.tools home page and sponsors page, in the DigiNode Tools README, and in DigiNode Setup and DigiNode Dashboard. In the order they were approved.
 - **Patrons** - sponsoring monthly at $100 or more. Listed on the sponsors page, linked to their GitHub profile unless they chose otherwise. (A $300 sponsor who hasn't been approved yet is listed here.)
 - Private and one-time sponsors are never listed. People stop being listed when they stop sponsoring.
 
-If the list hasn't been checked for 7 days (e.g. because the Action has stopped working), DigiNode Tools and the website stop showing Premium Sponsors, so nobody is shown after they stop paying.
+If the list hasn't been checked for 7 days (e.g. because the Action has stopped working), DigiNode Tools and the website stop showing Featured Sponsors, so nobody is shown after they stop paying.
 
-## Approving a Premium Sponsor
+## Approving a Featured Sponsor
 
-Premium Sponsors fill in the **Become a Premium Sponsor** issue form. The Action checks:
+Featured Sponsors fill in the **Become a Featured Sponsor** issue form. The Action checks:
 
 - the GitHub account is actively sponsoring at $300+ a month, publicly (if it's an organisation, the person asking must be a public member of it)
 - there's a place free (3 places; someone updating their own details doesn't need a new place)
@@ -50,7 +48,7 @@ If everything is OK, it turns the logo into a card (the same size as all the oth
 
 Public $300 sponsors who haven't been approved 3 days after sponsoring get one reminder issue, tagging them with the link to the form.
 
-To remove a Premium Sponsor early, delete their entry from `featured-approved.json` (and their logo). Retire the $300 tier on GitHub while all 3 places are taken.
+To remove a Featured Sponsor early, delete their entry from `featured-approved.json` (and their logo). Retire the $300 tier on GitHub while all 3 places are taken.
 
 ### Adding one by hand
 
@@ -76,10 +74,10 @@ Text about sponsoring lives in `snippets/`, and is copied into the READMEs liste
 |---|---|
 | `badge.md` | The "Sponsor DigiNode Tools - Click to support me" button |
 | `short.md` | The button and one line, at the top of most READMEs |
-| `tiers.md` | The Patron and Premium Sponsor tiers |
+| `tiers.md` | The Patron and Featured Sponsor tiers |
 | `become.md` | The button, the sponsor link and the tiers |
 | `dgb.md` | The DGB address and QR code |
-| `premium.md` | The Premium Sponsors row and button in the DigiNode Tools README |
+| `featured.md` | The Featured Sponsors row and button in the DigiNode Tools README |
 | `support.md` | The "Sponsor DigiNode Tools" section of the DigiNode Tools README |
 
 A snippet can include another one with `{{name}}`. A file says where a snippet goes with a pair of markers, and everything between them is replaced:
@@ -99,10 +97,10 @@ Test it without changing anything: `scripts/sync-readmes.py --dry-run`. Fill in 
 
 The diginode.tools website uses the **DigiNode Tools Sponsors** WordPress plugin (kept locally, not on GitHub). It reads `featured.json` and provides:
 
-- `[diginode_premium_sponsors]` - the Premium Sponsors banner, used on the home page under the QR code. Options: `title="..."` and `heading="h3"`.
-- `https://diginode.tools/premium-sponsor/1` (2 and 3) - the links on the logos in the DigiNode Tools README. They go to that sponsor's website, or to GitHub Sponsors if the place is free. The README can't change by itself, so this is how its links stay right.
+- `[diginode_featured_sponsors]` - the Featured Sponsors banner, used on the home page under the QR code. Options: `title="..."` and `heading="h3"`.
+- `https://diginode.tools/featured-sponsor/1` (2 and 3) - the links on the logos in the DigiNode Tools README. They go to that sponsor's website, or to GitHub Sponsors if the place is free. The README can't change by itself, so this is how its links stay right.
 
-The sponsors page embeds `sponsors.md`, which includes its own Premium Sponsors row.
+The sponsors page embeds `sponsors.md`, which includes its own Featured Sponsors row.
 
 ## One-time setup
 

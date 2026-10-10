@@ -12,19 +12,19 @@ This repo keeps the list of sponsors up to date, for the website, the DigiNode T
 **[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)**. You can sponsor monthly or make a one-time donation, from as little as you like.
 
 - **Patron** ($100 a month): your name on the [sponsors page](https://diginode.tools/sponsors/), linked to your GitHub profile if you like.
-- **Premium Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Premium Sponsors are approved by me. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml).
+- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml).
 <!-- /sponsors:become -->
 
 Only public sponsorships are listed, so if you'd rather not be named, choose a private sponsorship. You stop being listed when your sponsorship ends.
 
-## Premium Sponsors: adding your logo
+## Featured Sponsors: adding your logo
 
-1. [Sponsor DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **Premium Sponsor** tier, with a **public** sponsorship.
-2. Fill in the **[Become a Premium Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
+1. [Sponsor DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **Featured Sponsor** tier, with a **public** sponsorship.
+2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
 3. Your request is checked automatically, usually within a minute. If anything needs fixing, a reply on your request explains what. Edit your request to check it again.
 4. Once it's approved, your logo and link appear within a few minutes.
 
-Your logo is shown on a white card, the same size as the other Premium Sponsors. If your company sponsors from an organisation account, enter it in the form. You need to be a [public member](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/publicizing-or-hiding-organization-membership) of that organisation.
+Your logo is shown on a white card, the same size as the other Featured Sponsors. If your company sponsors from an organisation account, enter it in the form. You need to be a [public member](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/publicizing-or-hiding-organization-membership) of that organisation.
 
 To change your logo, name or website later, just fill in the form again.
 

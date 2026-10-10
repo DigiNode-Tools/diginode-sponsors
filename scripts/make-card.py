@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Turn a Premium Sponsor's logo into a "card": their logo, centred on a white rounded rectangle, always the same size.
+Turn a Featured Sponsor's logo into a "card": their logo, centred on a white rounded rectangle, always the same size.
 The cards are what the website, the DigiNode Tools README and the sponsors page show, so every logo looks consistent,
 and re-drawing the image also strips anything in the original file that isn't the picture itself.
 
@@ -80,7 +80,7 @@ def make_placeholder(out_path, bold_font, regular_font):
     title = ImageFont.truetype(bold_font, 92)
     subtitle = ImageFont.truetype(regular_font, 52)
     draw.text((WIDTH / 2, HEIGHT / 2 - 40), "Your brand here", font=title, fill="#002352", anchor="mm")
-    draw.text((WIDTH / 2, HEIGHT / 2 + 70), "Become a Premium Sponsor", font=subtitle, fill="#0066cc", anchor="mm")
+    draw.text((WIDTH / 2, HEIGHT / 2 + 70), "Become a Featured Sponsor", font=subtitle, fill="#0066cc", anchor="mm")
     card.save(out_path, "PNG", optimize=True)
 
 
