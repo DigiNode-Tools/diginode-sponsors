@@ -26,6 +26,8 @@ These are some of the things I'd like to build, as time allows. The more support
 
 ### Become a sponsor
 
+[![Sponsor DigiNode Tools](https://img.shields.io/badge/Sponsor-DigiNode%20Tools-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/DigiNode-Tools)
+
 **[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)**. You can sponsor monthly or make a one-time donation, from as little as you like.
 
 - **Patron** ($100 a month): you'll be listed on this page.
