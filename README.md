@@ -2,56 +2,42 @@
 
 [![Sponsor DigiNode Tools](https://img.shields.io/badge/Sponsor-DigiNode%20Tools-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/DigiNode-Tools)
 
-**Find this useful?** Please consider [sponsoring me on GitHub](https://github.com/sponsors/DigiNode-Tools), so I can devote more time to DigiNode Tools and projects like this one.
+[DigiNode Tools](https://diginode.tools) lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free and open source, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
 
-This repo keeps the list of [DigiNode Tools sponsors](https://github.com/sponsors/DigiNode-Tools) up to date for the [diginode.tools](https://diginode.tools) website and for DigiNode Tools itself. A GitHub Action checks the current sponsors every day.
+**[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)**. You can sponsor monthly or make a one-time donation, from as little as you like. To see what your support helps with, and what I hope to work on next, visit [diginode.tools/sponsors](https://diginode.tools/sponsors/).
 
-| File | What it is |
+This repo keeps the list of sponsors up to date, for the website and for DigiNode Tools itself.
+
+## Sponsor tiers
+
+| Tier | You get |
 |---|---|
-| `page-intro.md` | The text at the top of the diginode.tools/sponsors page. **Edit this** to change it. |
-| `featured-approved.json` | Featured Sponsors you have approved. **Edit this** - see below. |
-| `logos/` | Logos for Featured Sponsors. |
-| `sponsors.md` | Generated. The full sponsors page, embedded on diginode.tools/sponsors. The "Thank you to my sponsors" section appears once there are sponsors to list. |
-| `featured.json` | Generated. The Featured Sponsors shown by DigiNode Setup and DigiNode Dashboard. |
+| **Patron** - $100 a month | Your name and link on [diginode.tools/sponsors](https://diginode.tools/sponsors/). |
+| **Featured Sponsor** - $300 a month, only 3 places | For businesses and projects. Your logo and link on [diginode.tools/sponsors](https://diginode.tools/sponsors/), and your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. |
 
-## Who is listed
+Patrons are listed automatically within a day of sponsoring. Only public sponsorships are listed, so if you'd rather not be named, choose a private sponsorship. You stop being listed when your sponsorship ends.
 
-- **Featured Sponsors** - sponsoring monthly at $300 or more, **and** approved in `featured-approved.json`. Shown on the website and in DigiNode Tools.
-- **Patrons** - sponsoring monthly at $100 or more. Listed on the website. (A $300 sponsor who hasn't been approved yet is listed here.)
-- People who sponsor privately are never listed. People stop being listed when they stop sponsoring.
+## Adding your logo as a Featured Sponsor
 
-If the list hasn't been checked for 7 days (e.g. because the Action has stopped working), DigiNode Tools stops showing Featured Sponsors, so nobody is shown after they stop paying.
+1. [Sponsor DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **Featured Sponsor** tier, with a **public** sponsorship.
+2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally on a transparent background).
+3. Your request is checked automatically, usually within a minute. If anything needs fixing, a reply on your request explains what. Edit your request to check it again.
+4. Once it's approved, your logo and link appear within a few minutes.
 
-## Approving a Featured Sponsor
+If your company sponsors from an organisation account, enter it in the form. You need to be a [public member](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/publicizing-or-hiding-organization-membership) of that organisation.
 
-1. Add their logo to `logos/` (PNG or SVG, ideally on a transparent background).
-2. Add them to `featured-approved.json`, using their GitHub username as the key:
+To change your logo, name or website later, just fill in the form again.
 
-   ```json
-   "their-github-login": {
-     "name": "Example Exchange",
-     "url": "https://example.com",
-     "logo": "logos/example.png"
-   }
-   ```
+## Donate DigiByte
 
-3. Run the Action from the **Actions** tab (**Update sponsors > Run workflow**), or wait for the next daily run.
+Prefer to donate DGB? Send it to:
 
-If you don't approve someone, refund their sponsorship. Only 3 Featured places are available - retire the $300 tier on GitHub while they are all taken.
+`dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup`
 
-## The SPONSORS_TOKEN secret
+Thank you for your support!
 
-The Action needs a GitHub token that can read DigiNode-Tools' sponsors, saved as a repository secret called `SPONSORS_TOKEN`:
+Olly
 
-1. Go to **GitHub > Settings > Developer settings > Personal access tokens > Tokens (classic) > Generate new token (classic)**.
-2. Name it `diginode-sponsors`, choose an expiry (or **No expiration**), and tick only **read:org** and **read:user**.
-3. Copy the token, then in this repo go to **Settings > Secrets and variables > Actions > New repository secret**. Name it `SPONSORS_TOKEN` and paste the token.
+---
 
-If the token expires, the Action fails and opens an issue here. Create a new token and update the secret.
-
-## Running it yourself
-
-```bash
-scripts/update.sh                      # needs SPONSORS_TOKEN, or a gh login with read:org and read:user
-scripts/update.sh --input test.json    # test with made-up sponsorships
-```
+<sub>Maintaining this repo? See [MAINTAINING.md](MAINTAINING.md).</sub>

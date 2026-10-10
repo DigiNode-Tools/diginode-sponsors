@@ -1,0 +1,76 @@
+name: Featured Sponsor request
+
+# When someone fills in the "Become a Featured Sponsor" form, check they are a Featured Sponsor and that their details
+# and logo are OK. If so, open a pull request adding them, for Olly to approve. If not, reply on the issue saying why.
+# Editing the issue checks it again.
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: featured-request-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: contains(github.event.issue.labels.*.name, 'featured-sponsor') && github.event.issue.state == 'open'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Check the request
+        env:
+          # The issue is written by the public, so it is only passed in through environment variables
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          RESULT_FILE: ${{ runner.temp }}/result.env
+        run: scripts/featured-request.sh
+
+      - name: Open a pull request, or reply with the problem
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+          RESULT_FILE: ${{ runner.temp }}/result.env
+        run: |
+          status=$(sed -n 's/^status=//p' "$RESULT_FILE")
+          sponsor=$(sed -n 's/^sponsor=//p' "$RESULT_FILE")
+          sed -n 's/^message=//p' "$RESULT_FILE" > "$RUNNER_TEMP/message.md"
+
+          if [ "$status" != "ok" ]; then
+            { echo "Thanks for your request. Unfortunately there's a problem:"; echo; cat "$RUNNER_TEMP/message.md"; echo
+              echo "If you need help, please reply here and Olly will get back to you."; } > "$RUNNER_TEMP/comment.md"
+            gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/comment.md"
+            exit 0
+          fi
+
+          # The sponsor login has already been checked by featured-request.sh, so it's safe in a branch name
+          branch="featured/$sponsor"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add featured-approved.json logos/
+          git commit -m "Add Featured Sponsor: $sponsor"
+          git push --force origin "$branch"
+
+          { cat "$RUNNER_TEMP/message.md"; echo
+            echo "Please check the logo and website below, then merge this pull request to approve them. Their logo will appear on the website and in DigiNode Tools within a few minutes."
+            echo; echo "If you don't want to approve them, close this pull request and refund their sponsorship."
+            echo; echo "Closes #$ISSUE"; echo; echo '```json'; jq --arg l "$sponsor" '.[$l]' featured-approved.json; echo '```'
+            echo; echo "![Logo](https://raw.githubusercontent.com/$GITHUB_REPOSITORY/refs/heads/$branch/$(jq -r --arg l "$sponsor" '.[$l].logo' featured-approved.json))"; } > "$RUNNER_TEMP/pr.md"
+
+          pr=$(gh pr list --head "$branch" --state open --json url --jq '.[0].url // empty')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" --body-file "$RUNNER_TEMP/pr.md"
+          else
+            pr=$(gh pr create --base main --head "$branch" --title "Add Featured Sponsor: $sponsor" --body-file "$RUNNER_TEMP/pr.md")
+          fi
+          gh issue comment "$ISSUE" --body "Thank you! Everything checks out. Olly has been asked to approve it, and your logo will appear once he does: $pr"

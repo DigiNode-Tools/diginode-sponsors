@@ -1,0 +1,54 @@
+name: Become a Featured Sponsor
+description: Add your logo and link to DigiNode Tools (for $300/month Featured Sponsors)
+title: "Featured Sponsor: "
+labels: ["featured-sponsor"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for sponsoring DigiNode Tools! Featured Sponsors are shown on the [diginode.tools/sponsors](https://diginode.tools/sponsors/) page, and in DigiNode Setup and DigiNode Dashboard.
+
+        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Featured Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly.
+
+  - type: input
+    id: sponsor_account
+    attributes:
+      label: Sponsoring GitHub account
+      description: The GitHub user or organisation that sponsors DigiNode Tools. Leave blank if it's your own account. If it's an organisation, you must be a public member of it.
+      placeholder: e.g. my-company
+    validations:
+      required: false
+
+  - type: input
+    id: name
+    attributes:
+      label: Name to display
+      description: Your company, project or personal name, as it should appear. Letters, numbers, spaces and . , & ' + - only. Up to 40 characters.
+      placeholder: e.g. Example Exchange
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website
+      description: The link people go to when they click your logo or name. Must start with https://
+      placeholder: https://example.com
+    validations:
+      required: true
+
+  - type: textarea
+    id: logo
+    attributes:
+      label: Logo
+      description: Drag and drop your logo here. PNG, JPG or WebP, ideally on a transparent background, at least 400 pixels wide and under 1 MB.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Optional.
+    validations:
+      required: false

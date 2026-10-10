@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "41 4 * * *"   # Daily. Each run records when it checked, which also stops GitHub disabling the schedule.
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [featured-approved.json, page-intro.md]   # A Featured Sponsor was approved, or the page text changed
 
 permissions:
   contents: write
