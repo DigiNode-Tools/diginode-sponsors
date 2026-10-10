@@ -1,0 +1,53 @@
+name: Update sponsors
+
+on:
+  schedule:
+    - cron: "41 4 * * *"   # Daily. Each run records when it checked, which also stops GitHub disabling the schedule.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: update-sponsors
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Get sponsors and build the files
+        id: update
+        env:
+          # Classic token with the read:org and read:user scopes, saved as a repository secret
+          SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+        run: scripts/update.sh
+
+      - name: Commit changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add featured.json sponsors.md
+            git commit -m "Update sponsors"
+            git push
+          fi
+
+      - name: Raise an issue if it failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Sponsor update failed"
+          body="The daily sponsor update failed. The most likely cause is that the SPONSORS_TOKEN secret has expired or is missing - see the README.
+
+          Featured Sponsors stop being shown in DigiNode Tools if the list hasn't been checked for 7 days.
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -z "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --title "$title" --body "$body"
+          fi

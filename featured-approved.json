@@ -1,0 +1,3 @@
+{
+  "_comment": "Approved Featured Sponsors ($300/month tier). Key = their GitHub login. They only appear while they are actively sponsoring at the Featured tier. Put logos in the logos/ folder. Example entry: \"example-login\": {\"name\": \"Example Exchange\", \"url\": \"https://example.com\", \"logo\": \"logos/example.png\"}"
+}
