@@ -12,7 +12,7 @@ This repo keeps the list of sponsors up to date, for the website, the DigiNode T
 **[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)**. You can sponsor monthly or make a one-time donation, from as little as you like.
 
 - **Patron** ($100 a month): your name on the [sponsors page](https://diginode.tools/sponsors/), linked to your GitHub profile if you like.
-- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml).
+- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml).
 <!-- /sponsors:become -->
 
 Only public sponsorships are listed, so if you'd rather not be named, choose a private sponsorship. You stop being listed when your sponsorship ends.
