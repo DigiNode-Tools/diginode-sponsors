@@ -8,7 +8,7 @@ body:
       value: |
         Thank you for sponsoring DigiNode Tools! Featured Sponsors are shown on the [diginode.tools](https://diginode.tools) home page and [sponsors page](https://diginode.tools/sponsors/), on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), and in DigiNode Setup and DigiNode Dashboard.
 
-        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Featured Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly.
+        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Featured Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly. If your sponsorship isn't approved, it will be refunded.
 
   - type: input
     id: sponsor_account
