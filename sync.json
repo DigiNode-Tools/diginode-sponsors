@@ -4,8 +4,7 @@
     {"repo": "DigiNode-Tools/diginode-tools",                      "branches": ["main", "develop"], "path": "README.md"},
     {"repo": "DigiNode-Tools/digibyte-hashes",                     "branches": ["main"], "path": "README.md"},
     {"repo": "DigiNode-Tools/DGNSM",                               "branches": ["main"], "path": "README.md"},
-    {"repo": "DigiNode-Tools/DigiByte-DigiFacts-JSON",             "branches": ["main"], "path": "README.md"},
-    {"repo": "DigiNode-Tools/DigiByte-DigiFacts-Wordpress-Plugin", "branches": ["main"], "path": "README.md"},
+    {"repo": "DigiNode-Tools/digibyte-digifacts",                  "branches": ["main"], "path": "README.md"},
     {"repo": "DigiNode-Tools/.github",                             "branches": ["main"], "path": "README.md"},
     {"repo": "DigiNode-Tools/diginode-sponsors",                   "branches": ["main"], "path": "README.md"},
     {"repo": "DigiNode-Tools/diginode-sponsors",                   "branches": ["main"], "path": "page-intro.md"}
