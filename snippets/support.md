@@ -1,6 +1,6 @@
 ## Sponsor DigiNode Tools
 
-I created DigiNode Tools to make it easy for everybody to run their own DigiByte Node. It's free and open source, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
+I created DigiNode Tools to make it easy for everybody to run their own DigiByte Node. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
 
 {{become}}
 

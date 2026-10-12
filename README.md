@@ -1,6 +1,6 @@
 # DigiNode Tools sponsors
 
-[DigiNode Tools](https://diginode.tools) lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free and open source, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it. To see what your support helps with, and what I hope to work on next, visit [diginode.tools/sponsors](https://diginode.tools/sponsors/).
+[DigiNode Tools](https://diginode.tools) lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it. To see what your support helps with, and what I hope to work on next, visit [diginode.tools/sponsors](https://diginode.tools/sponsors/).
 
 This repo keeps the list of sponsors up to date, for the website, the DigiNode Tools GitHub page, and DigiNode Tools itself.
 
@@ -45,6 +45,10 @@ Prefer to donate DGB? Scan the QR code, or send it to:
 Thank you for your support!
 
 Olly
+
+## Licence
+
+Part of DigiNode Tools: free to use, and the code is public so anyone can see exactly what it does. Licensed under the [PolyForm Perimeter 1.0.0](LICENCE.md) licence, which doesn't allow it to be used to make a competing product - see the [Licence FAQ](https://github.com/DigiNode-Tools/diginode-tools/blob/main/docs/licence_faq.md). The DigiNode Tools name and logo are covered by [TRADEMARKS.md](https://github.com/DigiNode-Tools/diginode-tools/blob/main/TRADEMARKS.md).
 
 ---
 
