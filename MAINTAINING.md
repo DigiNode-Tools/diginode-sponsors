@@ -33,6 +33,7 @@ When something changes - a new plan, a price, a perk - change it here first, the
 ## Actions
 
 - **Update sponsors** - every day, whenever `featured-approved.json`, `patron-settings.json`, `kofi-members.json` or `page-intro.md` changes on `main`, and when Ko-fi sends a membership payment (adding the member first). Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
+- **Featured Sponsor places** (part of **Update sponsors**) - opens an issue for you when all 3 places are taken (with a checklist to retire the $300 tier on GitHub and unpublish it on Ko-fi, as neither can be capped across both), closes it and opens another when a place is free again, opens one when an approved Featured Sponsor stops sponsoring (still holding a place), and one when someone joins the Featured Sponsor tier on Ko-fi.
 - **Featured Sponsor request** (`featured-request.yml`) - checks the "Become a Featured Sponsor" form and opens a pull request.
 - **Patron listing request** - handles the "Change how I'm listed" form. No approval needed.
 - **Sync sponsor text** - copies `snippets/` into every README in `sync.json` whenever a snippet changes.

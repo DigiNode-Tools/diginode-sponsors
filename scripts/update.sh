@@ -13,6 +13,10 @@
 # been approved yet (usually because they haven't filled in the form) are written to it, one per line, so they can be
 # reminded.
 #
+# If PLACES_FILE is set, the Featured Sponsor places are written to it as JSON: {"places": 3, "approved": [keys in
+# featured-approved.json], "active": [those still sponsoring at the Featured tier]}, so Olly can be told when the places
+# are all taken, or one is free again.
+#
 # Needs a GitHub token with the read:org and read:user scopes, in SPONSORS_TOKEN (or from 'gh auth token').
 #
 # Who is listed:
@@ -118,7 +122,7 @@ jq --slurpfile approved "$ROOT/featured-approved.json" --slurpfile settings "$RO
         # In the order they were approved, so their place in the row stays the same
         featured: [ .[] | select(.amount >= $featured_min and $approved[.login] != null)
                     | $approved[.login] as $a
-                    | .login as $l | {order: ($order | index($l)), name: ($a.name // .name), url: ($a.url // .github),
+                    | .login as $l | {login: $l, order: ($order | index($l)), name: ($a.name // .name), url: ($a.url // .github),
                        logo: (if $a.logo then $raw + "/" + $a.logo else null end), card: $a.logo} ]
                   | sort_by(.order) | map(del(.order)),
         # Patrons are linked to their GitHub profile, unless they have asked not to be (patron-settings.json)
@@ -191,6 +195,12 @@ if [ -n "${PENDING_FILE:-}" ]; then
                      and $approved[0][.sponsorEntity.login] == null
                      and ((.createdAt // "1970-01-01T00:00:00Z") | fromdateiso8601) < (now - $days * 86400))
             | .sponsorEntity.login' "$WORK/nodes.json" > "$PENDING_FILE"
+fi
+
+if [ -n "${PLACES_FILE:-}" ]; then
+    jq --slurpfile approved "$ROOT/featured-approved.json" --argjson places "$FEATURED_PLACES" \
+        '{places: $places, approved: ($approved[0] | del(._comment) | keys_unsorted), active: [.featured[].login]}' \
+        "$WORK/lists.json" > "$PLACES_FILE"
 fi
 
 echo "Featured Sponsors: $(jq '.featured | length' "$WORK/lists.json")    Patrons: $(jq '.patrons | length' "$WORK/lists.json")"

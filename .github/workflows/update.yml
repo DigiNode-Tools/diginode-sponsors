@@ -29,6 +29,7 @@ jobs:
         if: github.event_name == 'repository_dispatch'
         env:
           KOFI_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          NEW_FEATURED_FILE: ${{ runner.temp }}/new-featured.txt
         run: scripts/kofi-membership.py
 
       - name: Get sponsors and build the files
@@ -37,6 +38,7 @@ jobs:
           # Classic token with the read:org and read:user scopes, saved as a repository secret
           SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
           PENDING_FILE: ${{ runner.temp }}/pending.txt
+          PLACES_FILE: ${{ runner.temp }}/places.json
         run: scripts/update.sh
 
       - name: Commit changes
@@ -70,6 +72,63 @@ jobs:
               "If you'd rather not be featured, or have any questions, just reply here." "" "Olly" > "$RUNNER_TEMP/reminder.md"
             gh issue create --title "$title" --body-file "$RUNNER_TEMP/reminder.md" --assignee saltedlolly
           done < "$PENDING_FILE"
+
+      - name: Tell Olly about the Featured Sponsor places
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PLACES_FILE: ${{ runner.temp }}/places.json
+          NEW_FEATURED_FILE: ${{ runner.temp }}/new-featured.txt
+        run: |
+          # Keys and names here come from featured-approved.json, the GitHub API or kofi-members.json (cleaned), never
+          # from issue text. Each issue is only opened if there isn't already an open one with the same title.
+          open_issue() {   # title, body file
+            if [ -z "$(gh issue list --state open --search "in:title \"$1\"" --json number,title --jq ".[] | select(.title == \"$1\") | .number")" ]; then
+              gh issue create --title "$1" --body-file "$2" --assignee saltedlolly
+            fi
+          }
+          find_open() { gh issue list --state open --search "in:title \"$1\"" --json number,title --jq ".[] | select(.title == \"$1\") | .number" | head -1; }
+
+          # Someone has just become a Featured Sponsor on Ko-fi
+          if [ -s "$NEW_FEATURED_FILE" ]; then
+            IFS=$'\t' read -r key name < "$NEW_FEATURED_FILE"
+            printf '%s\n' "**$name** has just joined the Featured Sponsor tier on [Ko-fi](https://ko-fi.com/diginode) (\`$key\` in \`kofi-members.json\`). They're listed as a Patron until you approve them." "" \
+              "They've been asked (in Ko-fi's welcome message) to fill in the [Become a Featured Sponsor](https://go.diginode.tools/featured-sponsor) form with their Ko-fi name, or to send their logo, name and website in a Ko-fi message. Then approve them - see MAINTAINING.md, \"Ko-fi members\"." "" \
+              "If all the places are already taken, refund them on Ko-fi and let them know." > "$RUNNER_TEMP/body.md"
+            open_issue "New Ko-fi Featured Sponsor: $name" "$RUNNER_TEMP/body.md"
+          fi
+
+          [ -s "$PLACES_FILE" ] || exit 0
+          places=$(jq '.places' "$PLACES_FILE")
+          approved=$(jq '.approved | length' "$PLACES_FILE")
+          full_title="All Featured Sponsor places are taken"
+          free_title="A Featured Sponsor place is free"
+
+          if [ "$approved" -ge "$places" ]; then
+            printf '%s\n' "All $places Featured Sponsor places are taken, so new Featured Sponsors can't be approved. To stop people signing up (and having to refund them):" "" \
+              "- [ ] **GitHub Sponsors:** [Sponsor tiers](https://github.com/sponsors/DigiNode-Tools/dashboard/tiers) > the \$300 Featured Sponsor tier > **Retire tier**" \
+              "- [ ] **Ko-fi:** [Memberships](https://ko-fi.com/memberships/settings) > Featured Sponsor > Edit > untick **Publish tier**" "" \
+              "This issue closes itself, and opens \"$free_title\", when a place is free again." > "$RUNNER_TEMP/body.md"
+            open_issue "$full_title" "$RUNNER_TEMP/body.md"
+            n=$(find_open "$free_title"); [ -z "$n" ] || gh issue close "$n" --comment "All the places are taken again."
+          else
+            n=$(find_open "$full_title")
+            if [ -n "$n" ]; then
+              gh issue close "$n" --comment "A place is free again - see \"$free_title\"."
+              free=$((places - approved))
+              printf '%s\n' "$free of the $places Featured Sponsor places are free again. To let people sign up:" "" \
+                "- [ ] **GitHub Sponsors:** [Sponsor tiers](https://github.com/sponsors/DigiNode-Tools/dashboard/tiers) > add the \$300 **Featured Sponsor** tier again (same text as on Ko-fi and in MAINTAINING.md)" \
+                "- [ ] **Ko-fi:** [Memberships](https://ko-fi.com/memberships/settings) > Featured Sponsor > Edit > tick **Publish tier**, and set **Limit number of people who can join** to $free" > "$RUNNER_TEMP/body.md"
+              open_issue "$free_title" "$RUNNER_TEMP/body.md"
+            fi
+          fi
+
+          # Approved Featured Sponsors who are no longer sponsoring at the Featured tier still hold a place
+          jq -r '.approved - .active | .[]' "$PLACES_FILE" | while read -r key; do
+            [ -n "$key" ] || continue
+            printf '%s\n' "\`$key\` is approved in \`featured-approved.json\`, but is no longer sponsoring at the Featured Sponsor tier, so they aren't shown - but they still hold one of the $places places." "" \
+              "If they've stopped for good, delete their entry from \`featured-approved.json\` (and their logo in \`logos/\`) to free the place. If it's just a late payment, you can leave this open for a few days." > "$RUNNER_TEMP/body.md"
+            open_issue "Featured Sponsor no longer sponsoring: $key" "$RUNNER_TEMP/body.md"
+          done
 
       - name: Raise an issue if it failed
         if: failure()

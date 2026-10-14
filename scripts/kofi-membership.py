@@ -14,6 +14,8 @@
 #
 # Usage:   KOFI_PAYLOAD='{"name": "...", "tier": "...", "amount": "...", "currency": "USD", "timestamp": "..."}' \
 #            scripts/kofi-membership.py
+#          If NEW_FEATURED_FILE is set and someone has just become a Ko-fi Featured Sponsor, "key<TAB>name" is written to
+#          it, so Olly can be told they're waiting to send their logo.
 #          scripts/kofi-membership.py --key "NAME"   Print the kofi-members.json key for a Ko-fi name (used by
 #                                                    featured-request.sh), or nothing if the name isn't usable
 
@@ -77,6 +79,9 @@ def main():
         members = json.load(f)
 
     entry = members.get(key)
+    if amount >= 300 and (entry is None or entry.get("amount", 0) < 300) and os.environ.get("NEW_FEATURED_FILE"):
+        with open(os.environ["NEW_FEATURED_FILE"], "w", encoding="utf-8") as f:
+            f.write(f"{key}\t{name}\n")
     if entry is None:
         members[key] = {"name": name, "amount": amount, "until": until}
         print(f"Added {key} ({name}) at ${amount} a month, listed until {until}")
