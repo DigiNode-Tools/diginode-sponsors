@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [featured-approved.json, patron-settings.json, page-intro.md]   # A Featured Sponsor was approved, or the page changed
+    paths: [featured-approved.json, patron-settings.json, kofi-members.json, page-intro.md]   # A Featured Sponsor was approved, a Ko-fi member added, or the page changed
 
 permissions:
   contents: write

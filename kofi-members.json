@@ -1,0 +1,3 @@
+{
+  "_comment": "Ko-fi members at the Patron ($100/month) or Featured Sponsor ($300/month) tier, added by hand (Ko-fi can't be read automatically). Key = \"kofi-\" + a short name. amount = their monthly tier in dollars. url (optional) = the link for their name. until (optional, YYYY-MM-DD) = when to stop listing them - set it, or remove them, when they cancel. A Featured Sponsor also needs an entry with the same key in featured-approved.json. Example: \"kofi-example\": {\"name\": \"Example Exchange\", \"url\": \"https://example.com\", \"amount\": 300}"
+}

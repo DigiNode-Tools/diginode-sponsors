@@ -2,6 +2,17 @@
 
 Notes for Olly. The [README](README.md) is for sponsors.
 
+## Keep every sponsor page the same
+
+These four places must always show the same tiers, prices, perks and "What I hope to work on next" list:
+
+- this repo (`snippets/` and `page-intro.md`, copied into the READMEs and the sponsors page)
+- [diginode.tools/sponsors](https://diginode.tools/sponsors/) (made from `page-intro.md`)
+- [GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools) - edited by hand: the profile text and the tiers
+- [Ko-fi](https://ko-fi.com/diginode) - edited by hand: the About text, the membership tiers and the goal
+
+When something changes - a new plan, a price, a perk - change it here first, then GitHub Sponsors and Ko-fi to match. When a plan is finished, remove it from `snippets/plans.md`, GitHub Sponsors and Ko-fi (and mention it in the release notes instead).
+
 ## What's where
 
 | File | What it is |
@@ -9,9 +20,10 @@ Notes for Olly. The [README](README.md) is for sponsors.
 | `snippets/` | **The shared sponsor text.** Edit it here and it's copied everywhere - see below. |
 | `page-intro.md` | The text of the diginode.tools/sponsors page. **Edit this** to change it (except the parts between `sponsors:` markers, which come from `snippets/`). |
 | `featured-approved.json` | Approved Featured Sponsors. Normally updated for you - see below. |
+| `kofi-members.json` | Ko-fi members at the Patron or Featured Sponsor tier, added by hand - see below. |
 | `patron-settings.json` | Patrons who asked to be listed without a link, or not at all. Updated by the "Change how I'm listed" form. |
 | `logos/` | Featured Sponsor logo cards (made by `scripts/make-card.py`). |
-| `images/` | The "Your brand here" placeholder and the DGB donation QR code. |
+| `images/` | The "Your brand here" placeholder, and the DGB donation QR code. The DGB donation card used in `snippets/dgb.md` (and on Ko-fi and GitHub Sponsors) is in [diginode-media](https://github.com/DigiNode-Tools/diginode-media/tree/main/sponsor). |
 | `sponsors.md` | Generated. The full sponsors page, embedded on diginode.tools/sponsors. |
 | `featured.json` | Generated. The Featured Sponsors, read by DigiNode Setup, DigiNode Dashboard and the website plugin. |
 | `slots/` | Generated. `featured-1.png` to `featured-3.png`: each a sponsor's logo card, or the placeholder. Shown in the DigiNode Tools README. |
@@ -19,7 +31,7 @@ Notes for Olly. The [README](README.md) is for sponsors.
 
 ## Actions
 
-- **Update sponsors** - every day, and whenever `featured-approved.json`, `patron-settings.json` or `page-intro.md` changes on `main`. Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
+- **Update sponsors** - every day, and whenever `featured-approved.json`, `patron-settings.json`, `kofi-members.json` or `page-intro.md` changes on `main`. Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
 - **Featured Sponsor request** (`featured-request.yml`) - checks the "Become a Featured Sponsor" form and opens a pull request.
 - **Patron listing request** - handles the "Change how I'm listed" form. No approval needed.
 - **Sync sponsor text** - copies `snippets/` into every README in `sync.json` whenever a snippet changes.
@@ -30,6 +42,7 @@ Anything that fails opens an issue here.
 
 - **Featured Sponsors** - sponsoring monthly at $300 or more, **and** approved in `featured-approved.json`. Shown on the diginode.tools home page and sponsors page, in the DigiNode Tools README, and in DigiNode Setup and DigiNode Dashboard. In the order they were approved.
 - **Patrons** - sponsoring monthly at $100 or more. Listed on the sponsors page, linked to their GitHub profile unless they chose otherwise. (A $300 sponsor who hasn't been approved yet is listed here.)
+- **Ko-fi members** at these tiers are listed too, once you add them to `kofi-members.json` - see below.
 - Private and one-time sponsors are never listed. People stop being listed when they stop sponsoring.
 
 If the list hasn't been checked for 7 days (e.g. because the Action has stopped working), DigiNode Tools and the website stop showing Featured Sponsors, so nobody is shown after they stop paying.
@@ -66,16 +79,31 @@ scripts/make-card.py their-logo.png logos/their-github-login.png
 }
 ```
 
+## Ko-fi members
+
+Ko-fi can't be read automatically, so Patrons and Featured Sponsors who join on [Ko-fi](https://ko-fi.com/diginode) are added by hand. You get an email from Ko-fi when someone joins or cancels.
+
+Add them to `kofi-members.json`, with a key starting `kofi-`:
+
+```json
+"kofi-example": {"name": "Example Exchange", "url": "https://example.com", "amount": 300}
+```
+
+- `amount` is their monthly tier in dollars (100 or 300). `url` is optional: the link for their name.
+- When they cancel, remove them, or add `"until": "YYYY-MM-DD"` (the end of what they've paid for) and they drop off that day.
+- A Featured Sponsor also needs approving: ask them to send their logo, name and website in a Ko-fi message, make their card, and add them to `featured-approved.json` with the **same key** (see "Adding one by hand" above). They take one of the 3 places.
+
 ## The shared sponsor text
 
 Text about sponsoring lives in `snippets/`, and is copied into the READMEs listed in `sync.json` (including this repo's README and `page-intro.md`) whenever it changes. Edit it once here, and everything else follows within a minute.
 
 | Snippet | Used for |
 |---|---|
-| `badge.md` | The "Sponsor DigiNode Tools - Click to support me" button |
-| `short.md` | The button and one line, at the top of most READMEs |
+| `badge.md` | The "Sponsor on GitHub" and "Support on Ko-fi" buttons |
+| `short.md` | The buttons and one line, at the top of most READMEs |
 | `tiers.md` | The Patron and Featured Sponsor tiers |
-| `become.md` | The button, the sponsor link and the tiers |
+| `plans.md` | "What I hope to work on next", on the sponsors page |
+| `become.md` | The buttons, the sponsor links and the tiers |
 | `dgb.md` | The DGB address and QR code |
 | `featured.md` | The Featured Sponsors row and button in the DigiNode Tools README |
 | `support.md` | The "Sponsor DigiNode Tools" section of the DigiNode Tools README |
@@ -89,7 +117,7 @@ A snippet can include another one with `{{name}}`. A file says where a snippet g
 
 To add another README, add the markers to it and add it to `sync.json`. Files without markers are left alone. In `diginode-tools`, both `main` and `develop` are updated, so pull before editing its README.
 
-Things that are **not** synced, so need changing by hand: the GitHub Sponsors page and tiers, the donation message in `diginode-setup.sh`, and the website home page.
+Things that are **not** synced, so need changing by hand: the GitHub Sponsors page and tiers, the Ko-fi page and tiers, the donation message in `diginode-setup.sh`, and the website home page.
 
 Test it without changing anything: `scripts/sync-readmes.py --dry-run`. Fill in this repo's own files on disk: `scripts/sync-readmes.py --local`.
 

@@ -20,6 +20,7 @@
 #   Patrons           - sponsoring monthly at $100 or more (and Featured Sponsors who haven't been approved yet), unless
 #                       they asked not to be in patron-settings.json
 #   Sponsors who chose to sponsor privately are never listed.
+#   Ko-fi members at these tiers are added by hand, in kofi-members.json.
 
 set -euo pipefail
 
@@ -27,7 +28,7 @@ ORG="DigiNode-Tools"
 FEATURED_MIN=300
 FEATURED_PLACES=3
 PATRON_MIN=100
-SPONSORS_URL="https://github.com/sponsors/DigiNode-Tools"
+SPONSORS_URL="https://diginode.tools/sponsors/"   # Where the "Your brand here" placeholders link (GitHub and Ko-fi)
 REMIND_DAYS=3
 RAW_URL="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main"
 
@@ -88,6 +89,16 @@ else
     jq '.data.organization.sponsorshipsAsMaintainer.nodes' "$WORK/response.json" > "$WORK/nodes.json"
 fi
 
+# Ko-fi members (kofi-members.json, kept by hand - Ko-fi can't be read automatically), in the same format as the GitHub
+# sponsorships. Anyone whose "until" date has passed is left out. Kept separate from nodes.json, so Ko-fi members are
+# never sent a reminder on GitHub.
+jq --slurpfile kofi "$ROOT/kofi-members.json" --arg today "${NOW:0:10}" '
+    . + [ $kofi[0] | del(._comment) | to_entries[]
+          | select((.value.until // "9999-12-31") >= $today)
+          | {privacyLevel: "PUBLIC", isOneTimePayment: false,
+             tier: {monthlyPriceInDollars: .value.amount, isOneTime: false},
+             sponsorEntity: {login: .key, name: .value.name, url: .value.url}} ]' "$WORK/nodes.json" > "$WORK/all.json"
+
 # ------------------------------------------------------------------------------------------
 # Work out who is a Featured Sponsor and who is a Patron
 
@@ -116,7 +127,7 @@ jq --slurpfile approved "$ROOT/featured-approved.json" --slurpfile settings "$RO
                     | ($settings[.login].listing // "linked") as $listing
                     | select($listing != "hidden")
                     | {name, url: (if $listing == "linked" then .github else null end)} ]
-      }' "$WORK/nodes.json" > "$WORK/lists.json"
+      }' "$WORK/all.json" > "$WORK/lists.json"
 
 # ------------------------------------------------------------------------------------------
 # featured.json - read by DigiNode Setup, DigiNode Dashboard and the diginode.tools WordPress plugin. They ignore it if
