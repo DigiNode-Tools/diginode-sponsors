@@ -34,7 +34,7 @@ To change your logo, name or website later, just fill in the form again.
 
 Patrons are listed automatically within a day of sponsoring, by name, linked to your GitHub profile. If you'd prefer your name without a link, or not to be listed at all, use the **[Change how I'm listed](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=patron-listing.yml)** form. It takes effect within a few minutes.
 
-On Ko-fi, I add Patrons by hand, so it may take a day or two. Tell me in a message how you'd like to be listed (your name, with or without a link to your website).
+On Ko-fi, Patrons are listed automatically within a few minutes, by the name on your Ko-fi support, if you chose to make it public. To add a link to your website, or to not be listed, just send me a message on Ko-fi.
 
 ## Donate DigiByte
 

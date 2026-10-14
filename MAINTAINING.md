@@ -17,10 +17,11 @@ When something changes - a new plan, a price, a perk - change it here first, the
 
 | File | What it is |
 |---|---|
+| `scripts/kofi-membership.py` | Adds or extends a Ko-fi member from a Ko-fi membership payment. Run by **Update sponsors**. |
 | `snippets/` | **The shared sponsor text.** Edit it here and it's copied everywhere - see below. |
 | `page-intro.md` | The text of the diginode.tools/sponsors page. **Edit this** to change it (except the parts between `sponsors:` markers, which come from `snippets/`). |
 | `featured-approved.json` | Approved Featured Sponsors. Normally updated for you - see below. |
-| `kofi-members.json` | Ko-fi members at the Patron or Featured Sponsor tier, added by hand - see below. |
+| `kofi-members.json` | Ko-fi members at the Patron or Featured Sponsor tier, added automatically from Ko-fi (or by hand) - see below. |
 | `patron-settings.json` | Patrons who asked to be listed without a link, or not at all. Updated by the "Change how I'm listed" form. |
 | `logos/` | Featured Sponsor logo cards (made by `scripts/make-card.py`). |
 | `images/` | The "Your brand here" placeholder, and the DGB donation QR code. The DGB donation card used in `snippets/dgb.md` (and on Ko-fi and GitHub Sponsors) is in [diginode-media](https://github.com/DigiNode-Tools/diginode-media/tree/main/sponsor). |
@@ -31,7 +32,7 @@ When something changes - a new plan, a price, a perk - change it here first, the
 
 ## Actions
 
-- **Update sponsors** - every day, and whenever `featured-approved.json`, `patron-settings.json`, `kofi-members.json` or `page-intro.md` changes on `main`. Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
+- **Update sponsors** - every day, whenever `featured-approved.json`, `patron-settings.json`, `kofi-members.json` or `page-intro.md` changes on `main`, and when Ko-fi sends a membership payment (adding the member first). Rebuilds `sponsors.md`, `featured.json` and `slots/`, and reminds Featured Sponsors who haven't sent their logo.
 - **Featured Sponsor request** (`featured-request.yml`) - checks the "Become a Featured Sponsor" form and opens a pull request.
 - **Patron listing request** - handles the "Change how I'm listed" form. No approval needed.
 - **Sync sponsor text** - copies `snippets/` into every README in `sync.json` whenever a snippet changes.
@@ -42,7 +43,7 @@ Anything that fails opens an issue here.
 
 - **Featured Sponsors** - sponsoring monthly at $300 or more, **and** approved in `featured-approved.json`. Shown on the diginode.tools home page and sponsors page, in the DigiNode Tools README, and in DigiNode Setup and DigiNode Dashboard. In the order they were approved.
 - **Patrons** - sponsoring monthly at $100 or more. Listed on the sponsors page, linked to their GitHub profile unless they chose otherwise. (A $300 sponsor who hasn't been approved yet is listed here.)
-- **Ko-fi members** at these tiers are listed too, once you add them to `kofi-members.json` - see below.
+- **Ko-fi members** at these tiers are listed too, automatically (`kofi-members.json`) - see below.
 - Private and one-time sponsors are never listed. People stop being listed when they stop sponsoring.
 
 If the list hasn't been checked for 7 days (e.g. because the Action has stopped working), DigiNode Tools and the website stop showing Featured Sponsors, so nobody is shown after they stop paying.
@@ -81,17 +82,30 @@ scripts/make-card.py their-logo.png logos/their-github-login.png
 
 ## Ko-fi members
 
-Ko-fi can't be read automatically, so Patrons and Featured Sponsors who join on [Ko-fi](https://ko-fi.com/diginode) are added by hand. You get an email from Ko-fi when someone joins or cancels.
+Patrons and Featured Sponsors who join on [Ko-fi](https://ko-fi.com/diginode) are listed automatically:
 
-Add them to `kofi-members.json`, with a key starting `kofi-`:
+1. Ko-fi sends every payment to the **DigiNode Tools Sponsors** WordPress plugin on diginode.tools (Ko-fi's webhook).
+2. The plugin checks Ko-fi's verification token, and passes on **public membership payments** to this repo (a `repository_dispatch` event, `kofi-membership`) with just the name, tier, amount, currency and time - never an email or message, as Action logs here are public. Private supporters aren't listed.
+3. **Update sponsors** runs `scripts/kofi-membership.py`, which adds or extends them in `kofi-members.json`, then rebuilds the sponsors page.
+
+Only the **Patron** and **Featured Sponsor** tiers are listed (matched by the Ko-fi tier name). Each monthly payment lists them until 35 days later, so they drop off about a month after their last payment - Ko-fi doesn't say when someone cancels. A Ko-fi **Featured Sponsor** is listed as a Patron until you approve them: ask them to send their logo, name and website in a Ko-fi message, make their card, and add them to `featured-approved.json` with the **same key** as in `kofi-members.json` (see "Adding one by hand" above). They take one of the 3 places, so lower the Featured Sponsor tier's member limit on Ko-fi to match.
+
+You can also edit `kofi-members.json` by hand, e.g. to add a `url` for someone's name (it's kept when they pay again), or to add someone yourself:
 
 ```json
 "kofi-example": {"name": "Example Exchange", "url": "https://example.com", "amount": 300}
 ```
 
-- `amount` is their monthly tier in dollars (100 or 300). `url` is optional: the link for their name.
-- When they cancel, remove them, or add `"until": "YYYY-MM-DD"` (the end of what they've paid for) and they drop off that day.
-- A Featured Sponsor also needs approving: ask them to send their logo, name and website in a Ko-fi message, make their card, and add them to `featured-approved.json` with the **same key** (see "Adding one by hand" above). They take one of the 3 places.
+Leave out `until` to list someone until you remove them. To hide someone, add their key to `patron-settings.json` with `"listing": "hidden"`.
+
+The plugin's **Settings > DigiNode Sponsors** page shows the last Ko-fi payments received and what happened to each.
+
+### Setting up the Ko-fi webhook (one time)
+
+1. **GitHub token:** GitHub > Settings > Developer settings > Fine-grained tokens > Generate new token. Resource owner **DigiNode-Tools**, **Only select repositories: diginode-sponsors**, permission **Contents: Read and write**, no expiry (or note the date). 
+2. **Ko-fi token:** ko-fi.com > Settings > API > Advanced > copy the **Verification Token**.
+3. In WordPress, **Settings > DigiNode Sponsors**: paste both tokens and save. Copy the **Ko-fi webhook URL** shown there.
+4. On Ko-fi's API page, paste the URL into **Webhook URL**, save, and press **Send Single Donation Test**. It should appear under "Last Ko-fi payments received" as "Not a membership payment - nothing to do".
 
 ## The shared sponsor text
 
