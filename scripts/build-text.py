@@ -74,8 +74,8 @@ write("snippets/tiers-all.md", "\n".join(rows) + "\n\n"
 
 # The DGB address changes after each donation (see scripts/dgb-donations.py), so the address is never written out
 # here: the card image is redrawn for the current address, and the sponsors page shows it as text to copy.
-dgb_text = (f"Prefer to donate DGB? Scan the QR code. Each donation goes to a new address - to copy the current one, "
-            f"see [{links['page'].replace('https://', '').rstrip('/')}]({links['page']}).")
+dgb_text = (f"Prefer to donate DGB? Scan the QR code, or copy the address from "
+            f"[{links['page'].replace('https://', '').rstrip('/')}]({links['page']}).")
 dgb_img = f"<img src=\"{info['dgb_card']}\" alt=\"Donate DigiByte - scan the QR code\" width=\"600\">"
 write("snippets/dgb.md", f"{dgb_text}\n\n{dgb_img}\n")
 

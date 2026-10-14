@@ -99,7 +99,7 @@
     "dgb": {
       "pill": "No platform fees",
       "text": "Send DGB straight to my wallet.",
-      "small": "Each donation gets a new address",
+      "small": "Any amount, from any DigiByte wallet",
       "button": "Copy address"
     }
   }
