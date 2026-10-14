@@ -107,6 +107,15 @@ The plugin's **Settings > DigiNode Sponsors** page shows the last Ko-fi payments
 3. In WordPress, **Settings > DigiNode Sponsors**: paste both tokens and save. Copy the **Ko-fi webhook URL** shown there.
 4. On Ko-fi's API page, paste the URL into **Webhook URL**, save, and press **Send Single Donation Test**. It should appear under "Last Ko-fi payments received" as "Not a membership payment - nothing to do".
 
+### Renewing the GitHub token
+
+The token (named **diginode-sponsors Ko-fi webhook**) expires after a year. When it does, Ko-fi payments show "GitHub error 401" in **Settings > DigiNode Sponsors**, and Ko-fi members stop being added. To renew it:
+
+1. GitHub > Settings > Developer settings > Personal access tokens > **Fine-grained tokens** > **diginode-sponsors Ko-fi webhook** > **Regenerate token** (it keeps the same access) and copy the new token.
+2. In WordPress, **Settings > DigiNode Sponsors**: paste it into **GitHub token** and save.
+
+Ko-fi members who paid while it was expired are added again at their next monthly payment, or add them to `kofi-members.json` by hand.
+
 ## The shared sponsor text
 
 Text about sponsoring lives in `snippets/`, and is copied into the READMEs listed in `sync.json` (including this repo's README and `page-intro.md`) whenever it changes. Edit it once here, and everything else follows within a minute.
