@@ -40,8 +40,6 @@ These are some of the things I'd like to build, as time allows. The more support
 - **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml) (on Ko-fi, give your Ko-fi name in the form, or send me your logo, name and website in a Ko-fi message).
 <!-- /sponsors:become -->
 
-[☕ Support DigiNode Tools on Ko-fi](https://ko-fi.com/diginode#kofi-panel)
-
 ### Donate DigiByte
 
 <!-- sponsors:dgb -->
