@@ -83,11 +83,9 @@ Only public sponsorships are listed, and you stop being listed when your sponsor
 ### Donate DigiByte
 
 <!-- sponsors:dgb -->
-Prefer to donate DGB? Scan the QR code, or send it to:
+Prefer to donate DGB? Scan the QR code. Each donation goes to a new address - to copy the current one, see [diginode.tools/sponsors](https://diginode.tools/sponsors/).
 
-`dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup`
-
-<img src="https://raw.githubusercontent.com/DigiNode-Tools/diginode-media/main/sponsor/dgb-donation-card.png" alt="Donate DigiByte - QR code for dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup" width="600">
+<img src="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-card.png" alt="Donate DigiByte - scan the QR code" width="600">
 <!-- /sponsors:dgb -->
 
 Thank you for your support!
