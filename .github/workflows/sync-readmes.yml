@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: sync-readmes
+  group: sponsor-text   # The same as "Build sponsor text", which also updates the READMEs - running both at once makes one fail
   cancel-in-progress: false
 
 jobs:
