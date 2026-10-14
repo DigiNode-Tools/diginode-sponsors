@@ -1,0 +1,6 @@
+- **Support new DigiByte Core releases quickly**, and test them on real hardware before they reach your DigiNode
+- **Keep your downloads safe.** Every DigiByte Core release is verified before DigiNode Tools will install it.
+- **Fix bugs and help users** in the [DigiNode Tools Telegram group](https://t.me/DigiNodeTools)
+- **Add new features and improvements**
+- **Write more documentation and tutorials** for the diginode.tools website
+- **Cover hosting costs** for the website, and for the VPS servers that run my DigiByte nodes

@@ -29,9 +29,11 @@
 set -euo pipefail
 
 ORG="DigiNode-Tools"
-FEATURED_MIN=300
-FEATURED_PLACES=3
-PATRON_MIN=100
+# Prices and places come from sponsor-info.json (the one place they're kept)
+INFO="$(cd "$(dirname "$0")/.." && pwd)/sponsor-info.json"
+FEATURED_MIN=$(jq -r '.tiers[] | select(.listed == "featured") | .monthly' "$INFO")
+FEATURED_PLACES=$(jq -r '.featured_places' "$INFO")
+PATRON_MIN=$(jq -r '.tiers[] | select(.listed == "patron") | .monthly' "$INFO")
 SPONSORS_URL="https://diginode.tools/sponsors/"   # Where the "Your brand here" placeholders link (GitHub and Ko-fi)
 REMIND_DAYS=3
 RAW_URL="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main"

@@ -1,0 +1,93 @@
+{
+  "_comment": "THE ONE PLACE to change anything about sponsoring DigiNode Tools: the pitch, what support pays for, future plans, tiers, prices, perks, the DGB address and the sponsors page cards. Edit this file and push: the 'Build sponsor text' Action rebuilds everything made from it (snippets/, page-intro.md, the Featured Sponsor form, platform-text.md), copies the text into the READMEs, rebuilds the sponsors page, and - if anything for GitHub Sponsors or Ko-fi changed - opens an issue with the exact text to paste there. Markdown is allowed in the text. See MAINTAINING.md.",
+
+  "links": {
+    "page": "https://diginode.tools/sponsors/",
+    "github": "https://github.com/sponsors/DigiNode-Tools",
+    "kofi": "https://ko-fi.com/diginode",
+    "featured_form": "https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml",
+    "featured_form_short": "go.diginode.tools/featured-sponsor"
+  },
+
+  "pitch": "DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.",
+
+  "helps": [
+    "**Support new DigiByte Core releases quickly**, and test them on real hardware before they reach your DigiNode",
+    "**Keep your downloads safe.** Every DigiByte Core release is verified before DigiNode Tools will install it.",
+    "**Fix bugs and help users** in the [DigiNode Tools Telegram group](https://t.me/DigiNodeTools)",
+    "**Add new features and improvements**",
+    "**Write more documentation and tutorials** for the diginode.tools website",
+    "**Cover hosting costs** for the website, and for the VPS servers that run my DigiByte nodes"
+  ],
+
+  "plans_intro": "These are some of the things I'd like to build, as time allows. The more support I have, the sooner they can happen.",
+  "plans": [
+    "**DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI",
+    "**DigiDollar support:** integrating DigiDollar into DigiNode Dashboard",
+    "**Mining to your own node:** a stratum server app, so you can point your miners at your DigiNode and mine DGB to it, and follow how your mining is going in DigiNode Dashboard",
+    "**Uptime notifications:** get an alert if your DigiNode stops, gets stuck, or loses its connection to the network",
+    "**A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.",
+    "**Improved wallet backup and restore**",
+    "**A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing",
+    "**Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future",
+    "**Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display",
+    "**DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID",
+    "**Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin"
+  ],
+
+  "featured_places": 3,
+
+  "tiers": [
+    {
+      "emoji": "💙", "name": "Supporter", "monthly": 10,
+      "description": "Help me keep working on DigiNode Tools. Every sponsor gives me more time to improve it. Thank you!"
+    },
+    {
+      "emoji": "🖥️", "name": "Node Runner", "monthly": 25,
+      "description": "For DigiNode operators who want DigiNode Tools to keep improving. This makes a real difference to how much time I can give it."
+    },
+    {
+      "emoji": "🏆", "name": "Champion", "monthly": 50,
+      "description": "Helps me devote serious time to new features and improvements for DigiNode Tools. A big thank you!"
+    },
+    {
+      "emoji": "🌟", "name": "Patron", "monthly": 100, "listed": "patron",
+      "perk": "your name on the [sponsors page](https://diginode.tools/sponsors/), linked to your GitHub profile or website if you like.",
+      "description": "Directly funds a meaningful part of my time on DigiNode Tools. As a thank you, you'll be listed on the diginode.tools/sponsors page.",
+      "kofi_extra": "You're listed within a few minutes (if you make your support public). To add a link to your website, just send me a message. Tip: if you have a GitHub account, you can also sponsor on GitHub Sponsors, which takes no fee.",
+      "kofi_welcome": "Thank you so much for becoming a Patron of DigiNode Tools! If you made your support public, you'll be listed on diginode.tools/sponsors within a few minutes. Reply if you'd like your name linked to your website, or if you'd prefer not to be listed. - Olly"
+    },
+    {
+      "emoji": "🚀", "name": "Featured Sponsor", "monthly": 300, "listed": "featured",
+      "perk": "for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
+      "description": "For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page and sponsors page, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
+      "github_extra": "After sponsoring, add your logo here: https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml",
+      "kofi_extra": "After joining, add your logo with this form: go.diginode.tools/featured-sponsor (or send me your logo, name and website in a message). Tip: if you have a GitHub account, you can also sponsor on GitHub Sponsors, which takes no fee.",
+      "kofi_welcome": "Thank you so much for becoming a Featured Sponsor of DigiNode Tools! To add your logo and link, fill in this short form, giving your Ko-fi name: go.diginode.tools/featured-sponsor (it needs a free GitHub account). Or just reply with your logo (PNG, JPG or WebP, ideally at least 400 pixels wide), and the name and website you'd like shown. I'll check them and add you as soon as I can. - Olly"
+    }
+  ],
+  "kofi_welcome": "Thank you so much for supporting DigiNode Tools! It really does help me spend more time on it. - Olly",
+
+  "one_time": {
+    "github": [25, 50, 100, 250],
+    "kofi": [25, 50, 100]
+  },
+
+  "dgb_address": "dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup",
+  "dgb_card": "https://raw.githubusercontent.com/DigiNode-Tools/diginode-media/main/sponsor/dgb-donation-card.png",
+
+  "cards": {
+    "github": {
+      "pill": "Best for monthly sponsors",
+      "text": "Sponsor monthly with your GitHub account.",
+      "small": "You can also give once",
+      "button": "Sponsor on GitHub"
+    },
+    "kofi": {
+      "pill": "Best for one-time donations",
+      "text": "Donate once by card or PayPal.",
+      "small": "You can also give monthly",
+      "button": "Donate on Ko-fi"
+    }
+  }
+}

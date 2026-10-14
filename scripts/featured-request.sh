@@ -20,8 +20,10 @@
 
 set -euo pipefail
 
-FEATURED_MIN=300
-FEATURED_PLACES=3
+# Prices and places come from sponsor-info.json (the one place they're kept)
+INFO="$(cd "$(dirname "$0")/.." && pwd)/sponsor-info.json"
+FEATURED_MIN=$(jq -r '.tiers[] | select(.listed == "featured") | .monthly' "$INFO")
+FEATURED_PLACES=$(jq -r '.featured_places' "$INFO")
 MAX_LOGO_BYTES=$((1024 * 1024))
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)

@@ -30,7 +30,10 @@ import unicodedata
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "kofi-members.json")
 LISTED_DAYS = 35
-TIERS = [("featured", 300), ("patron", 100)]   # Matched against the Ko-fi tier name (e.g. "🚀 Featured Sponsor")
+# The listed tiers, from sponsor-info.json: (word to look for in the Ko-fi tier name, monthly dollars), Featured first
+with open(os.path.join(ROOT, "sponsor-info.json"), encoding="utf-8") as _f:
+    _tiers = json.load(_f)["tiers"]
+TIERS = sorted(((t["name"].split()[0].lower(), t["monthly"]) for t in _tiers if t.get("listed")), key=lambda x: -x[1])
 
 
 def clean_name(name):
@@ -79,7 +82,7 @@ def main():
         members = json.load(f)
 
     entry = members.get(key)
-    if amount >= 300 and (entry is None or entry.get("amount", 0) < 300) and os.environ.get("NEW_FEATURED_FILE"):
+    if amount == TIERS[0][1] and (entry is None or entry.get("amount", 0) < TIERS[0][1]) and os.environ.get("NEW_FEATURED_FILE"):
         with open(os.environ["NEW_FEATURED_FILE"], "w", encoding="utf-8") as f:
             f.write(f"{key}\t{name}\n")
     if entry is None:

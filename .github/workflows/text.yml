@@ -1,0 +1,93 @@
+name: Build sponsor text
+
+# sponsor-info.json is the one place the sponsor information is kept. When it changes, rebuild everything made from it,
+# copy the shared text into the READMEs, rebuild the sponsors page, and - if the text for GitHub Sponsors or Ko-fi
+# changed - open an issue with what to paste there.
+
+on:
+  push:
+    branches: [main]
+    paths: [sponsor-info.json, scripts/build-text.py]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  actions: write   # To start "Update sponsors" (a push made by this workflow doesn't start other workflows by itself)
+
+concurrency:
+  group: sponsor-text
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Build the text from sponsor-info.json
+        run: |
+          scripts/build-text.py
+          scripts/sync-readmes.py --local   # Fills in this repo's own README and page-intro.md
+
+      - name: Commit the changes
+        id: commit
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A snippets/ page-intro.md README.md platform-text.md .github/ISSUE_TEMPLATE/featured-sponsor.yml
+            platform_changed=$(git diff --cached --quiet -- platform-text.md && echo no || echo yes)
+            git diff --cached -- platform-text.md > "$RUNNER_TEMP/platform.diff"
+            git commit -m "Build sponsor text from sponsor-info.json"
+            git pull --rebase --quiet && git push
+            echo "platform_changed=$platform_changed" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Copy the text into the other READMEs
+        env:
+          GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}   # Needs the public_repo scope - see MAINTAINING.md
+        run: scripts/sync-readmes.py
+
+      - name: Rebuild the sponsors page
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run update.yml --ref main
+
+      - name: Ask Olly to update GitHub Sponsors and Ko-fi
+        if: steps.commit.outputs.platform_changed == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Update GitHub Sponsors and Ko-fi"
+          {
+            echo "sponsor-info.json changed, and so did the text for GitHub Sponsors and Ko-fi, which can't be updated automatically."
+            echo
+            echo "**[Open platform-text.md](https://github.com/${{ github.repository }}/blob/main/platform-text.md)** - it has every box to paste, with links to where each one goes. What changed:"
+            echo
+            echo '```diff'
+            head -c 50000 "$RUNNER_TEMP/platform.diff"
+            echo '```'
+            echo
+            echo "Close this issue once both are updated."
+          } > "$RUNNER_TEMP/body.md"
+          n=$(gh issue list --state open --search "in:title \"$title\"" --json number,title --jq ".[] | select(.title == \"$title\") | .number" | head -1)
+          if [ -n "$n" ]; then
+            gh issue comment "$n" --body-file "$RUNNER_TEMP/body.md"
+          else
+            gh issue create --title "$title" --body-file "$RUNNER_TEMP/body.md" --assignee saltedlolly
+          fi
+
+      - name: Raise an issue if it failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Building the sponsor text failed"
+          body="Building the sponsor text from sponsor-info.json failed - most likely a mistake in sponsor-info.json (check it's valid JSON), or the Ko-fi About text is over 900 characters.
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -z "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --title "$title" --body "$body"
+          fi
