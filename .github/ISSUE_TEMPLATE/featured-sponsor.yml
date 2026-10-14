@@ -8,7 +8,9 @@ body:
       value: |
         Thank you for sponsoring DigiNode Tools! Featured Sponsors are shown on the [diginode.tools](https://diginode.tools) home page and [sponsors page](https://diginode.tools/sponsors/), on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), and in DigiNode Setup and DigiNode Dashboard.
 
-        Before you submit this, please make sure you are [sponsoring DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **$300 a month Featured Sponsor** tier, and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly. If your sponsorship isn't approved, it will be refunded.
+        Before you submit this, please make sure you are sponsoring DigiNode Tools at the **$300 a month Featured Sponsor** tier, on [GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools) or [Ko-fi](https://ko-fi.com/diginode), and that your sponsorship is **public**. Your request is checked automatically, then approved by Olly. If your sponsorship isn't approved, it will be refunded.
+
+        **Sponsoring on Ko-fi?** Fill in "Ko-fi name" below, and leave "Sponsoring GitHub account" blank.
 
   - type: input
     id: sponsor_account
@@ -16,6 +18,15 @@ body:
       label: Sponsoring GitHub account
       description: The GitHub user or organisation that sponsors DigiNode Tools. Leave blank if it's your own account. If it's an organisation, you must be a public member of it.
       placeholder: e.g. my-company
+    validations:
+      required: false
+
+  - type: input
+    id: kofi_name
+    attributes:
+      label: Ko-fi name
+      description: Only if you sponsor on Ko-fi - the name on your Ko-fi support, as shown on the [sponsors page](https://diginode.tools/sponsors/).
+      placeholder: e.g. Example Exchange
     validations:
       required: false
 

@@ -14,6 +14,8 @@
 #
 # Usage:   KOFI_PAYLOAD='{"name": "...", "tier": "...", "amount": "...", "currency": "USD", "timestamp": "..."}' \
 #            scripts/kofi-membership.py
+#          scripts/kofi-membership.py --key "NAME"   Print the kofi-members.json key for a Ko-fi name (used by
+#                                                    featured-request.sh), or nothing if the name isn't usable
 
 import datetime
 import hashlib
@@ -36,7 +38,18 @@ def clean_name(name):
     return re.sub(r"\s+", " ", name).strip()[:60]
 
 
+def member_key(name):
+    """The kofi-members.json key for a (cleaned) Ko-fi name."""
+    slug = re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()).strip("-")
+    return "kofi-" + (slug[:30].strip("-") or hashlib.sha256(name.encode()).hexdigest()[:8])
+
+
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == "--key":
+        name = clean_name(sys.argv[2])
+        if name:
+            print(member_key(name))
+        return
     try:
         payload = json.loads(os.environ.get("KOFI_PAYLOAD") or "{}")
     except ValueError:
@@ -52,8 +65,7 @@ def main():
     if not name:
         print("No usable name - nothing to do")
         return
-    slug = re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()).strip("-")
-    key = "kofi-" + (slug[:30].strip("-") or hashlib.sha256(name.encode()).hexdigest()[:8])
+    key = member_key(name)
 
     try:
         paid = datetime.datetime.fromisoformat(str(payload.get("timestamp")).replace("Z", "+00:00")).date()

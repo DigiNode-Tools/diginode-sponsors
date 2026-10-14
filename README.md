@@ -12,17 +12,15 @@ This repo keeps the list of sponsors up to date, for the website, the DigiNode T
 **[Sponsor DigiNode Tools on GitHub](https://github.com/sponsors/DigiNode-Tools)** or **[support me on Ko-fi](https://ko-fi.com/diginode)**. You can give monthly or make a one-time donation, from as little as you like. The tiers are the same on both.
 
 - **Patron** ($100 a month): your name on the [sponsors page](https://diginode.tools/sponsors/), linked to your GitHub profile or website if you like.
-- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After sponsoring on GitHub, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml). On Ko-fi, send me your logo, name and website in a message.
+- **Featured Sponsor** ($300 a month, only 3 places): for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After sponsoring, [add your logo using this form](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml) (on Ko-fi, give your Ko-fi name in the form, or send me your logo, name and website in a Ko-fi message).
 <!-- /sponsors:become -->
 
 Only public sponsorships are listed, so if you'd rather not be named, choose a private sponsorship. You stop being listed when your sponsorship ends.
 
 ## Featured Sponsors: adding your logo
 
-On Ko-fi: join at the **Featured Sponsor** tier, then send me your logo, name and website in a Ko-fi message. On GitHub:
-
-1. [Sponsor DigiNode Tools](https://github.com/sponsors/DigiNode-Tools) at the **Featured Sponsor** tier, with a **public** sponsorship.
-2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
+1. Sponsor DigiNode Tools at the **Featured Sponsor** tier, with a **public** sponsorship, on [GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools) or [Ko-fi](https://ko-fi.com/diginode).
+2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. If you sponsor on Ko-fi, give the name on your Ko-fi support (you need a free GitHub account for the form - or just send me your logo, name and website in a Ko-fi message). Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
 3. Your request is checked automatically, usually within a minute. If anything needs fixing, a reply on your request explains what. Edit your request to check it again.
 4. Once it's approved, your logo and link appear within a few minutes.
 
