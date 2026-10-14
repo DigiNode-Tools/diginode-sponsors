@@ -18,11 +18,9 @@ You can also support me on [Ko-fi](https://ko-fi.com/diginode), with the same ti
 
 #### Donate DigiByte
 
-Prefer to donate DGB? Scan the QR code, or send it to:
+Prefer to donate DGB? Scan the QR code. Each donation goes to a new address - to copy the current one, see [diginode.tools/sponsors](https://diginode.tools/sponsors/).
 
-`dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup`
-
-<img src="https://raw.githubusercontent.com/DigiNode-Tools/diginode-media/main/sponsor/dgb-donation-card.png" alt="Donate DigiByte - QR code for dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup" width="600">
+<img src="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-card.png" alt="Donate DigiByte - scan the QR code" width="600">
 
 Thank you for your support!
 
@@ -155,7 +153,7 @@ Welcome message:
 Thank you so much for becoming a Featured Sponsor of DigiNode Tools! To add your logo and link, fill in this short form, giving your Ko-fi name: go.diginode.tools/featured-sponsor (it needs a free GitHub account). Or just reply with your logo (PNG, JPG or WebP, ideally at least 400 pixels wide), and the name and website you'd like shown. I'll check them and add you as soon as I can. - Olly
 ```
 
-The pinned post (**Support DigiNode Tools**, with the DGB donation card as its image):
+The pinned post (**Support DigiNode Tools**, with the Ko-fi banner as its image - not the DGB card, which would go out of date when the address changes):
 
 ```text
 DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
@@ -163,8 +161,7 @@ DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no t
 See what your support pays for, and what I'm building next: https://diginode.tools/sponsors/
 
 Donate DigiByte
-Prefer to donate DGB? Scan the QR code, or send it to:
-dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup
+Prefer to donate DGB? The address to send it to, with its QR code, is on the sponsors page: https://diginode.tools/sponsors/
 
 You can also sponsor me on GitHub, with the same tiers: https://github.com/sponsors/DigiNode-Tools
 

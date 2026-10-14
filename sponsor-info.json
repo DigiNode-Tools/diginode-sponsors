@@ -74,7 +74,14 @@
   },
 
   "dgb_address": "dgb1qv8psxjeqkau5s35qwh75zy6kp95yhxxw0d3kup",
-  "dgb_card": "https://raw.githubusercontent.com/DigiNode-Tools/diginode-media/main/sponsor/dgb-donation-card.png",
+  "_dgb_address": "The original donation address (on the Ledger). Used until DGB_DONATION_XPUB is set, and donations to it are always counted. The address to donate to NOW is in dgb-donate.json - never copy it anywhere by hand.",
+  "dgb": {
+    "_comment": "Thanks to recent DGB donors: at most recent_max donations, from the last recent_days days, of at least min_donation DGB (smaller ones are often spam).",
+    "min_donation": 50,
+    "recent_days": 90,
+    "recent_max": 5
+  },
+  "dgb_card": "https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-card.png",
 
   "cards": {
     "github": {
@@ -88,6 +95,12 @@
       "text": "Donate once by card or PayPal.",
       "small": "You can also give monthly",
       "button": "Donate on Ko-fi"
+    },
+    "dgb": {
+      "pill": "No platform fees",
+      "text": "Send DGB straight to my wallet.",
+      "small": "Each donation gets a new address",
+      "button": "Copy address"
     }
   }
 }

@@ -29,7 +29,8 @@ Try it locally first, if you like: `scripts/build-text.py && scripts/sync-readme
 | `kofi-members.json` | Ko-fi members at the Patron or Featured Sponsor tier, added automatically from Ko-fi (or by hand) - see below. |
 | `patron-settings.json` | Patrons who asked to be listed without a link, or not at all. Updated by the "Change how I'm listed" form. |
 | `logos/` | Featured Sponsor logo cards (made by `scripts/make-card.py`). |
-| `images/` | The "Your brand here" placeholder, and the DGB donation QR code. The DGB donation card used in `snippets/dgb.md` (and on Ko-fi and GitHub Sponsors) is in [diginode-media](https://github.com/DigiNode-Tools/diginode-media/tree/main/sponsor). |
+| `images/` | The "Your brand here" placeholder, and the DGB donation images for the current address: `dgb-donation-qr.png` and `dgb-donation-card.png` (redrawn by the **Update DGB donations** Action whenever the address changes - don't edit them by hand), plus the logo they use. |
+| `dgb-donate.json` | **Generated** by the **Update DGB donations** Action - the DGB address to donate to now, its QR code for the terminal, and the recent donations. See "DGB donations" below. |
 | `sponsors.md` | Generated. The full sponsors page, embedded on diginode.tools/sponsors. |
 | `featured.json` | Generated. The Featured Sponsors, read by DigiNode Setup, DigiNode Dashboard and the website plugin. |
 | `slots/` | Generated. `featured-1.png` to `featured-3.png`: each a sponsor's logo card, or the placeholder. Shown in the DigiNode Tools README. |
@@ -43,6 +44,7 @@ Try it locally first, if you like: `scripts/build-text.py && scripts/sync-readme
 - **Featured Sponsor request** (`featured-request.yml`) - checks the "Become a Featured Sponsor" form and opens a pull request.
 - **Patron listing request** - handles the "Change how I'm listed" form. No approval needed.
 - **Sync sponsor text** - copies `snippets/` into every README in `sync.json` whenever a snippet changes.
+- **Update DGB donations** (`dgb.yml`) - every 20 minutes. Finds the DGB address to donate to now and the recent donations, saves them in `dgb-donate.json`, and redraws the donation images when the address changes. See "DGB donations" below.
 
 Anything that fails opens an issue here.
 
@@ -123,6 +125,23 @@ The token (named **diginode-sponsors Ko-fi webhook**) expires after a year. When
 
 Ko-fi members who paid while it was expired are added again at their next monthly payment, or add them to `kofi-members.json` by hand.
 
+## DGB donations
+
+Each DGB donation should go to a new address. All of them are in the same Ledger account, so it all ends up in one wallet.
+
+- **The Ledger account:** a Ledger Live account called **Donations** (DigiByte, Native SegWit). Its extended public key is the `DGB_DONATION_XPUB` repository secret. The key can only list the account's addresses - it can't spend anything - but it shows every address and payment, so keep it secret.
+- **The Update DGB donations Action** works out the account's addresses from the key (`scripts/dgbaddr.py`), and checks them on the block explorers (`scripts/dgb-donations.py` - cryptoid.info first, then two others if it's down). The first address that hasn't received anything is the one to donate to now. It saves it in **`dgb-donate.json`**, with:
+  - `qr_terminal` - its QR code for DigiNode Tools to show in the terminal
+  - `recent` - the latest donations, for "Thanks to recent DGB donors" on the sponsors page: the amount, a shortened sender address and when. The limits are `dgb` in `sponsor-info.json`: the last 90 days, at least 50 DGB, at most 5.
+- When the address changes, it redraws `images/dgb-donation-qr.png` and `images/dgb-donation-card.png` (`scripts/dgb-card.py`). Their links never change, so the card in the READMEs and on GitHub Sponsors is always for the current address.
+- **Everything that shows the address reads `dgb-donate.json`:** the sponsors page (the website plugin), DigiNode Tools in the terminal, and the card. Never write the address anywhere by hand - it changes.
+- **The original address** (`dgb_address` in `sponsor-info.json`, on the Ledger too) is used until `DGB_DONATION_XPUB` is set. Donations to it are always counted, as old versions of DigiNode Tools still show it.
+- **Ledger Live only looks about 20 addresses ahead.** The Action always uses the first unused address, so this is normally fine. If a donation seems to be missing in Ledger Live, use **Receive** in the Donations account a few times to make it look further.
+
+**Setting the key (one time):** in Ledger Live, open the Donations account > the wrench (Edit account) > **Advanced** > copy the key (xpub), then run `gh secret set DGB_DONATION_XPUB --repo DigiNode-Tools/diginode-sponsors` and paste it. Run the Action (Actions > Update DGB donations > Run workflow), and check the address in `dgb-donate.json` is the first one Ledger Live shows under **Receive**.
+
+If the explorers are down, `dgb-donate.json` stays as it was. If it hasn't been checked for a day, the Action opens an issue. Readers stop showing recent donations once it's a week old.
+
 ## The shared sponsor text
 
 Text about sponsoring lives in `snippets/`, and is copied into the READMEs listed in `sync.json` (and this repo's `page-intro.md`) whenever it changes. The **generated** snippets are made from `sponsor-info.json` - edit that, not them, or your change is overwritten. The others (`badge`, `short`, `become`, `featured`, `support`) are edited here.
@@ -135,7 +154,7 @@ Text about sponsoring lives in `snippets/`, and is copied into the READMEs liste
 | `pitch.md`, `helps.md`, `plans.md` | **Generated** - the pitch, what support pays for, and "What I hope to work on next" |
 | `tiers.md` | **Generated** - the Patron and Featured Sponsor tiers |
 | `tiers-all.md` | **Generated** - every tier, for the sponsors page |
-| `dgb.md` | **Generated** - the DGB address and donation card |
+| `dgb.md` | **Generated** - the DGB donation card (never the address itself, as it changes) |
 | `featured.md` | The Featured Sponsors row and button in the DigiNode Tools README |
 | `support.md` | The "Sponsor DigiNode Tools" section of the DigiNode Tools README |
 

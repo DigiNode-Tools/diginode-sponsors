@@ -72,10 +72,12 @@ write("snippets/tiers-all.md", "\n".join(rows) + "\n\n"
       f"Or give once: {', '.join(money(n) for n in one['github'])} on GitHub Sponsors, "
       f"{', '.join(money(n) for n in one['kofi'])} on Ko-fi - or any amount you like on either.\n")
 
-write("snippets/dgb.md",
-      "Prefer to donate DGB? Scan the QR code, or send it to:\n\n"
-      f"`{info['dgb_address']}`\n\n"
-      f"<img src=\"{info['dgb_card']}\" alt=\"Donate DigiByte - QR code for {info['dgb_address']}\" width=\"600\">\n")
+# The DGB address changes after each donation (see scripts/dgb-donations.py), so the address is never written out
+# here: the card image is redrawn for the current address, and the sponsors page shows it as text to copy.
+dgb_text = (f"Prefer to donate DGB? Scan the QR code. Each donation goes to a new address - to copy the current one, "
+            f"see [{links['page'].replace('https://', '').rstrip('/')}]({links['page']}).")
+dgb_img = f"<img src=\"{info['dgb_card']}\" alt=\"Donate DigiByte - scan the QR code\" width=\"600\">"
+write("snippets/dgb.md", f"{dgb_text}\n\n{dgb_img}\n")
 
 # ------------------------------------------------------------------------------------------
 # The Become a Featured Sponsor form
@@ -106,11 +108,9 @@ You can also support me on [Ko-fi]({links['kofi']}), with the same tiers.
 
 #### Donate DigiByte
 
-Prefer to donate DGB? Scan the QR code, or send it to:
+{dgb_text}
 
-`{info['dgb_address']}`
-
-<img src="{info['dgb_card']}" alt="Donate DigiByte - QR code for {info['dgb_address']}" width="600">
+{dgb_img}
 
 Thank you for your support!
 
@@ -127,7 +127,7 @@ if len(kofi_about) > 900:
 kofi_post = (f"{info['pitch']}\n\n"
              f"See what your support pays for, and what I'm building next: {links['page']}\n\n"
              "Donate DigiByte\n"
-             f"Prefer to donate DGB? Scan the QR code, or send it to:\n{info['dgb_address']}\n\n"
+             f"Prefer to donate DGB? The address to send it to, with its QR code, is on the sponsors page: {links['page']}\n\n"
              f"You can also sponsor me on GitHub, with the same tiers: {links['github']}\n\n"
              "Thank you for your support!\nOlly")
 
@@ -166,5 +166,5 @@ for t in tiers:
     limit = f" - tick **Limit number of people who can join** and set it to the number of free places (at most {places})" if t is featured else ""
     out += [f"**{t['emoji']} {t['name']}** - {money(t['monthly'])} a month{limit}", "",
             "Description:", "", block(desc), "", "Welcome message:", "", block(welcome), ""]
-out += ["The pinned post (**Support DigiNode Tools**, with the DGB donation card as its image):", "", block(kofi_post), ""]
+out += ["The pinned post (**Support DigiNode Tools**, with the Ko-fi banner as its image - not the DGB card, which would go out of date when the address changes):", "", block(kofi_post), ""]
 write("platform-text.md", "\n".join(out))

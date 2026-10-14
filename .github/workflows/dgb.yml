@@ -1,0 +1,69 @@
+name: Update DGB donations
+
+# Find the DGB address to donate to now (the first unused one in the Ledger "Donations" account) and the recent
+# donations, and save them in dgb-donate.json. When the address changes, redraw the donation QR code and card.
+# See "DGB donations" in MAINTAINING.md.
+
+on:
+  schedule:
+    - cron: "7,27,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: dgb-donations
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Install the QR code library
+        run: pip install --quiet "qrcode==8.2"
+
+      - name: Find the address and the recent donations
+        id: dgb
+        env:
+          DGB_DONATION_XPUB: ${{ secrets.DGB_DONATION_XPUB }}   # Never printed - see MAINTAINING.md
+        run: scripts/dgb-donations.py
+
+      - name: Redraw the donation images
+        if: steps.dgb.outputs.address_changed == 'yes'
+        run: scripts/dgb-card.py
+
+      - name: Commit the changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dgb-donate.json images/dgb-donation-qr.png images/dgb-donation-card.png
+            if [ "${{ steps.dgb.outputs.address_changed }}" = "yes" ]; then
+              git commit -m "New DGB donation address"
+            else
+              git commit -m "Update DGB donations"
+            fi
+            git pull --rebase --quiet && git push
+          fi
+
+      - name: Raise an issue if it keeps failing
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The explorers are sometimes down for a while, so only raise an issue once dgb-donate.json is a day old
+          checked=$(jq -r '.checked // empty' dgb-donate.json 2>/dev/null || true)
+          age=$(( $(date +%s) - $(date -d "${checked:-1970-01-01T00:00:00Z}" +%s) ))
+          [ "$age" -lt 86400 ] && exit 0
+          title="Updating DGB donations is failing"
+          body="Updating DGB donations hasn't worked for over a day, so the DGB address isn't changing after donations, and recent donations aren't shown. Most likely all the block explorers are down, or something about them changed.
+
+          Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -z "$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --title "$title" --body "$body"
+          fi
