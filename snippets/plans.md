@@ -9,5 +9,6 @@ These are some of the things I'd like to build, as time allows. The more support
 - 💾 **Improved wallet backup and restore**
 - ⚡ **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing
 - 🧩 **Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future
+- 🔐 **Tailscale support:** reach your DigiNode at home securely from anywhere, with no ports to open - probably as a DigiNode Tools plugin
 - 📟 **Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display
 - 🔗 **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
