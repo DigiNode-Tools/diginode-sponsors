@@ -14,6 +14,8 @@
 DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
 <!-- /sponsors:pitch -->
 
+*Thank you for your support, Olly*
+
 ### What your support helps with
 
 <!-- sponsors:helps -->
@@ -30,16 +32,16 @@ DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no t
 <!-- sponsors:plans -->
 These are some of the things I'd like to build, as time allows. The more support I have, the sooner they can happen.
 
-- 🪙 **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
 - 💵 **DigiDollar support:** integrating DigiDollar into DigiNode Dashboard
 - ⛏️ **Mining to your own node:** a stratum server app, so you can point your miners at your DigiNode and mine DGB to it, and follow how your mining is going in DigiNode Dashboard
 - 🔔 **Uptime notifications:** get an alert if your DigiNode stops, gets stuck, or loses its connection to the network
+- 🌐 **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID
 - 👛 **A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.
+- 🪙 **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
 - 💾 **Improved wallet backup and restore**
 - ⚡ **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing
 - 🧩 **Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future
 - 📟 **Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display
-- 🌐 **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID
 - 🔗 **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
 <!-- /sponsors:plans -->
 
@@ -87,13 +89,13 @@ The most prominent way to support DigiNode Tools. Ideal for businesses and proje
 
 Your logo is shown on a white card, the same size as the other Featured Sponsors. If your company sponsors from an organisation account, enter it in the form. You need to be a [public member](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-your-membership-in-organizations/publicizing-or-hiding-organization-membership) of that organisation. To change your logo, name or website later, just fill in the form again.
 
-### Patrons: how you're listed
+### How you're listed
 
-On **GitHub Sponsors**, Patrons are listed automatically within a day, by name, linked to your GitHub profile. If you'd prefer your name without a link, or not to be listed at all, use the **[Change how I'm listed](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=patron-listing.yml)** form. It takes effect within a few minutes.
+**Patrons** are shown at the top of this page. Everyone else appears under **Recent supporters** for 90 days after joining a monthly tier, or giving $25 or more at once - on GitHub Sponsors, on Ko-fi, or in DGB. Only public support is listed, and messages are never shown.
 
-On **Ko-fi**, Patrons are listed automatically within a few minutes, by the name on your Ko-fi support, if you make it public. To add a link to your website, or to not be listed, just send me a message on Ko-fi.
+On **GitHub Sponsors**, you're listed by name, linked to your GitHub profile. To use a nickname instead, appear as "A supporter", hide how much you gave, or not be listed at all, use the **[Change how I'm listed](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=patron-listing.yml)** form. It takes effect within a few minutes.
 
-Only public sponsorships are listed, and you stop being listed when your sponsorship ends.
+On **Ko-fi**, you're listed by the name you give when you pay - so you can use a nickname there. To not be listed, tick "make this private" when paying, or send me a message on Ko-fi afterwards.
 
 ### Donate DigiByte
 
@@ -102,7 +104,3 @@ Prefer to donate DGB? Scan the QR code, or copy the address from [diginode.tools
 
 <img src="https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-card.png" alt="Donate DigiByte - scan the QR code" width="600">
 <!-- /sponsors:dgb -->
-
-Thank you for your support!
-
-Olly
