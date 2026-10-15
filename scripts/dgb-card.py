@@ -4,6 +4,8 @@
 # Purpose: Draw the DGB donation images for the current donation address (from dgb-donate.json):
 #            images/dgb-donation-qr.png    the address as a dotted QR code with the DigiNode Tools badge in the middle
 #            images/dgb-donation-card.png  the "Donate DigiByte" card (1200x630) with that QR code and the address
+#            images/dgb-donation-qr-simple.png  a plain QR code with the DigiByte logo in the middle - easier to scan when
+#                                          small (the website's home page)
 #          Their addresses (URLs) never change, so everything showing them - the READMEs, GitHub Sponsors - follows the
 #          address as it changes. Run by the "Update DGB donations" Action when the address changes.
 #
@@ -22,6 +24,7 @@ import qrcode
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMAGES = os.path.join(ROOT, "images")
 LOGO = os.path.join(IMAGES, "diginode-logo-round.png")
+DGB_LOGO = os.path.join(IMAGES, "digibyte-logo.svg")
 FONTS = ('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,500;0,600;0,800;1,800'
          '&family=JetBrains+Mono:wght@500&display=block">')
 
@@ -80,6 +83,29 @@ def qr_html(address):
     return html, size
 
 
+def simple_qr_html(address):
+    """Square modules, a 2-module quiet zone, and the DigiByte logo (with a white ring) in the middle."""
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, border=0)
+    qr.add_data(address)
+    qr.make(fit=True)
+    grid = qr.get_matrix()
+    n = len(grid)
+    M, QUIET, LOGO_D = 12, 2, 9                    # px per module, quiet zone, logo diameter (modules)
+    size = (n + 2 * QUIET) * M
+    c = n / 2
+    clear = lambda x, y: (x + 0.5 - c) ** 2 + (y + 0.5 - c) ** 2 <= (LOGO_D / 2 + 0.8) ** 2
+    rects = [f'<rect x="{(x + QUIET) * M}" y="{(y + QUIET) * M}" width="{M}" height="{M}"/>'
+             for y in range(n) for x in range(n) if grid[y][x] and not clear(x, y)]
+    d = LOGO_D * M
+    logo = base64.b64encode(open(DGB_LOGO, "rb").read()).decode()
+    return (f'<!doctype html><html><head><meta charset="utf-8"><style>*{{margin:0}}html,body{{width:{size}px;height:{size}px;'
+            f'overflow:hidden;background:#fff}}</style></head><body><svg xmlns="http://www.w3.org/2000/svg" width="{size}" '
+            f'height="{size}" viewBox="0 0 {size} {size}" shape-rendering="crispEdges"><rect width="{size}" height="{size}" fill="#fff"/>'
+            f'<g fill="#000">{"".join(rects)}</g>'
+            f'<image href="data:image/svg+xml;base64,{logo}" x="{(size - d) / 2}" y="{(size - d) / 2}" width="{d}" height="{d}"/>'
+            f'</svg></body></html>'), size
+
+
 def card_html(address, qr_png):
     half = (len(address) + 1) // 2
     qr = base64.b64encode(open(qr_png, "rb").read()).decode()
@@ -113,6 +139,8 @@ def main():
     qr_png = os.path.join(IMAGES, "dgb-donation-qr.png")
     screenshot(html, size, size, qr_png)
     screenshot(card_html(address, qr_png), 1200, 630, os.path.join(IMAGES, "dgb-donation-card.png"))
+    html, size = simple_qr_html(address)
+    screenshot(html, size, size, os.path.join(IMAGES, "dgb-donation-qr-simple.png"))
     print(f"Drew the donation images for {address[:8]}...")
 
 

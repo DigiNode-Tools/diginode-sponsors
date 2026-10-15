@@ -42,7 +42,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add dgb-donate.json images/dgb-donation-qr.png images/dgb-donation-card.png
+            git add dgb-donate.json images/dgb-donation-qr.png images/dgb-donation-card.png images/dgb-donation-qr-simple.png
             if [ "${{ steps.dgb.outputs.address_changed }}" = "yes" ]; then
               git commit -m "New DGB donation address"
             else
