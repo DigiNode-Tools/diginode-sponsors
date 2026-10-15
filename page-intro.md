@@ -4,36 +4,36 @@
 DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
 <!-- /sponsors:pitch -->
 
-Your support helps me to:
+### What your support helps with
 
 <!-- sponsors:helps -->
-- **Support new DigiByte Core releases quickly**, and test them on real hardware before they reach your DigiNode
-- **Keep your downloads safe.** Every DigiByte Core release is verified before DigiNode Tools will install it.
-- **Fix bugs and help users** in the [DigiNode Tools Telegram group](https://t.me/DigiNodeTools)
-- **Add new features and improvements**
-- **Write more documentation and tutorials** for the diginode.tools website
-- **Cover hosting costs** for the website, and for the VPS servers that run my DigiByte nodes
+- 🚀 **Support new DigiByte Core releases quickly**, and test them on real hardware before they reach your DigiNode
+- 🔒 **Keep your downloads safe.** Every DigiByte Core release is verified before DigiNode Tools will install it.
+- 🐛 **Fix bugs and help users** in the [DigiNode Tools Telegram group](https://t.me/DigiNodeTools)
+- ✨ **Add new features and improvements**
+- 📚 **Write more documentation and tutorials** for the diginode.tools website
+- 🖥️ **Cover hosting costs** for the website, and for the VPS servers that run my DigiByte nodes
 <!-- /sponsors:helps -->
 
-### What I hope to work on next
+### What I want to work on next
 
 <!-- sponsors:plans -->
 These are some of the things I'd like to build, as time allows. The more support I have, the sooner they can happen.
 
-- **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
-- **DigiDollar support:** integrating DigiDollar into DigiNode Dashboard
-- **Mining to your own node:** a stratum server app, so you can point your miners at your DigiNode and mine DGB to it, and follow how your mining is going in DigiNode Dashboard
-- **Uptime notifications:** get an alert if your DigiNode stops, gets stuck, or loses its connection to the network
-- **A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.
-- **Improved wallet backup and restore**
-- **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing
-- **Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future
-- **Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display
-- **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID
-- **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
+- 🪙 **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI
+- 💵 **DigiDollar support:** integrating DigiDollar into DigiNode Dashboard
+- ⛏️ **Mining to your own node:** a stratum server app, so you can point your miners at your DigiNode and mine DGB to it, and follow how your mining is going in DigiNode Dashboard
+- 🔔 **Uptime notifications:** get an alert if your DigiNode stops, gets stuck, or loses its connection to the network
+- 👛 **A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.
+- 💾 **Improved wallet backup and restore**
+- ⚡ **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing
+- 🧩 **Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future
+- 📟 **Tronbyt support:** show your DigiNode's stats on a [Tronbyt](https://tronbyt.com) (Tidbyt) display
+- 🌐 **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID
+- 🔗 **Support for other blockchains:** potentially expanding DigiNode Tools to manage nodes for other blockchains, such as Bitcoin
 <!-- /sponsors:plans -->
 
-### Become a sponsor
+### Please support my work as a monthly sponsor or a one-time donation:
 
 <!-- sponsors:badge -->
 <a href="https://github.com/sponsors/DigiNode-Tools"><img src="https://img.shields.io/badge/Sponsor%20on-GitHub-0066CC?style=for-the-badge&labelColor=002352&logo=githubsponsors&logoColor=EA4AAA" alt="Sponsor DigiNode Tools on GitHub"></a> <a href="https://ko-fi.com/diginode"><img src="https://img.shields.io/badge/Support%20on-Ko--fi-0066CC?style=for-the-badge&labelColor=002352&logo=kofi&logoColor=FF5E5B" alt="Support DigiNode Tools on Ko-fi"></a>
@@ -52,6 +52,21 @@ Sponsor monthly, or make a one-time donation, from as little as you like. The ti
 
 Or give once: $25, $50, $100, $250 on GitHub Sponsors, $25, $50, $100 on Ko-fi - or any amount you like on either.
 <!-- /sponsors:tiers-all -->
+
+<!-- sponsors:featured-showcase -->
+### 🚀 Featured Sponsor: put your brand in front of DigiByte node runners
+
+The most prominent way to support DigiNode Tools. Ideal for businesses and projects in the DigiByte community: your logo and link appear in **four places**, seen by the people who set up and run DigiByte Nodes.
+
+- 🏠 **The diginode.tools home page** - Your logo and link on the home page, seen by everyone discovering DigiNode Tools.
+- 💙 **The sponsors page** - Your logo at the very top of this page, above everything else.
+- 📦 **The DigiNode Tools GitHub page** - Your logo in the README - the first thing node runners and developers see on GitHub.
+- 🖥️ **Inside DigiNode Tools itself** - Your name and link in the terminal, shown every time DigiNode Setup finishes and DigiNode Dashboard closes.
+
+**$300 a month.** *Only 3 places, so every Featured Sponsor stands out.* Featured Sponsors are approved by me, and refunded if not approved.
+
+**[Become a Featured Sponsor on GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools)** or **[on Ko-fi](https://ko-fi.com/diginode)**, then add your logo (see below).
+<!-- /sponsors:featured-showcase -->
 
 ### Featured Sponsors: adding your logo
 

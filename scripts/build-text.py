@@ -72,6 +72,15 @@ write("snippets/tiers-all.md", "\n".join(rows) + "\n\n"
       f"Or give once: {', '.join(money(n) for n in one['github'])} on GitHub Sponsors, "
       f"{', '.join(money(n) for n in one['kofi'])} on Ko-fi - or any amount you like on either.\n")
 
+# The Featured Sponsor showcase on the sponsors page (the website turns the places into cards)
+fs = info["featured_showcase"]
+write("snippets/featured-showcase.md",
+      f"### {fs['title']}\n\n{fs['intro']}\n\n"
+      + "\n".join(f"- {p['emoji']} **{p['title']}** - {p['text']}" for p in fs["places"]) + "\n\n"
+      f"**{money(featured['monthly'])} a month.** {fs['footer'].replace('{places}', str(places))}\n\n"
+      f"**[Become a Featured Sponsor on GitHub Sponsors]({links['github']})** or **[on Ko-fi]({links['kofi']})**, "
+      "then add your logo (see below).\n")
+
 # The DGB address changes after each donation (see scripts/dgb-donations.py), so the address is never written out
 # here: the card image is redrawn for the current address, and the sponsors page shows it as text to copy.
 dgb_text = (f"Prefer to donate DGB? Scan the QR code, or copy the address from "
