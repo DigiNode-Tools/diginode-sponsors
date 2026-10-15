@@ -11,8 +11,10 @@
 #          donation normally goes to a new address. Otherwise it's the fixed address in sponsor-info.json. Donations to
 #          the fixed address are always counted too - older DigiNode Tools versions and older pages still show it.
 #
-#          Recent donations: up to dgb.recent_max, from the last dgb.recent_days, of at least dgb.min_donation DGB.
-#          Each shows only the amount, a shortened sender address and when. Payments from the wallet's own addresses
+#          Recent donations: up to dgb.recent_max, from the last dgb.recent_days, of at least dgb.min_donation DGB (to
+#          skip spam), each with its value in US dollars at the price when it was first seen. Each has only the amount,
+#          that value, a shortened sender address, when, and the transaction id. recent-supporters.py lists the ones
+#          worth enough. Payments from the wallet's own addresses
 #          (moving funds around) aren't counted.
 #
 #          Sources, tried in turn: cryptoid.info, the DigiByte Blockbook explorer, Blockchair. If all of them fail, the
@@ -149,6 +151,21 @@ def terminal_qr(text):
     return lines
 
 
+def dgb_usd():
+    """The DGB price in US dollars now, or None. CoinGecko, then CoinPaprika."""
+    for url, path in (("https://api.coingecko.com/api/v3/simple/price?ids=digibyte&vs_currencies=usd", ("digibyte", "usd")),
+                      ("https://api.coinpaprika.com/v1/tickers/dgb-digibyte", ("quotes", "USD", "price"))):
+        try:
+            d = json.loads(fetch(url, timeout=10))
+            for k in path:
+                d = d[k]
+            if 0 < float(d) < 1000:
+                return float(d)
+        except Exception:   # noqa: BLE001 - try the next source
+            continue
+    return None
+
+
 def short(a):
     return f"{a[:5]}…{a[-3:]}" if a and ADDR_RE.match(a) else None
 
@@ -193,6 +210,10 @@ def main():
             if when >= since and amount >= cfg["min_donation"]:
                 p = payments.setdefault(txid, {"time": when, "amount": 0.0})
                 p["amount"] += amount
+    # The dollar value of each donation, at the price when it was first seen (kept from the last dgb-donate.json)
+    old = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+    known_usd = {r["txid"]: r["usd"] for r in old.get("recent", []) if r.get("txid") and r.get("usd") is not None}
+    price = None
     recent = []
     for txid, p in sorted(payments.items(), key=lambda kv: -kv[1]["time"]):
         if len(recent) >= cfg["recent_max"]:
@@ -204,7 +225,11 @@ def main():
             frm = None
         if frm in own:
             continue   # The wallet moving its own funds, not a donation
-        recent.append({"amount": round(p["amount"], 2), "from": short(frm), "time": p["time"]})
+        usd = known_usd.get(txid)
+        if usd is None:
+            price = price if price is not None else dgb_usd()
+            usd = round(p["amount"] * price, 2) if price is not None else None
+        recent.append({"amount": round(p["amount"], 2), "usd": usd, "from": short(frm), "time": p["time"], "txid": txid})
 
     out = {
         "_comment": "Made by scripts/dgb-donations.py - don't edit. The DGB address to donate to now, its QR code for "
@@ -221,7 +246,6 @@ def main():
     if dry:
         print(text)
         return
-    old = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
     same = {k: v for k, v in old.items() if k != "checked"} == {k: v for k, v in out.items() if k != "checked"}
     try:
         old_checked = datetime.datetime.strptime(old.get("checked", ""), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=datetime.UTC).timestamp()
@@ -236,6 +260,8 @@ def main():
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
             f.write(f"address_changed={'yes' if changed else 'no'}\n")
+            new_ids = {r["txid"] for r in recent} - {r.get("txid") for r in old.get("recent", [])}
+            f.write(f"new_donation={'yes' if new_ids else 'no'}\n")
 
 
 if __name__ == "__main__":

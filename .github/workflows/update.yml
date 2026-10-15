@@ -5,7 +5,7 @@ on:
     - cron: "41 4 * * *"   # Daily. Each run records when it checked, which also stops GitHub disabling the schedule.
   workflow_dispatch:
   repository_dispatch:
-    types: [kofi-membership]   # A Ko-fi membership payment, passed on by the DigiNode Tools Sponsors WordPress plugin
+    types: [kofi-membership]   # A public Ko-fi payment, passed on by the DigiNode Tools Sponsors WordPress plugin
   push:
     branches: [main]
     paths: [featured-approved.json, patron-settings.json, kofi-members.json, page-intro.md]   # A Featured Sponsor was approved, a Ko-fi member added, or the page changed
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
-      - name: Add the Ko-fi member
+      - name: Add the Ko-fi payment
         if: github.event_name == 'repository_dispatch'
         env:
           KOFI_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
@@ -41,12 +41,17 @@ jobs:
           PLACES_FILE: ${{ runner.temp }}/places.json
         run: scripts/update.sh
 
+      - name: Build Recent supporters
+        env:
+          SPONSORS_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
+        run: scripts/recent-supporters.py
+
       - name: Commit changes
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add featured.json sponsors.md slots/ kofi-members.json
+            git add featured.json sponsors.md slots/ kofi-members.json kofi-recent.json recent-supporters.json
             git commit -m "Update sponsors"
             git pull --rebase --quiet && git push
           fi

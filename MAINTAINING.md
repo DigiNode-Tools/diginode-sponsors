@@ -30,6 +30,7 @@ Try it locally first, if you like: `scripts/build-text.py && scripts/sync-readme
 | `patron-settings.json` | Patrons who asked to be listed without a link, or not at all. Updated by the "Change how I'm listed" form. |
 | `logos/` | Featured Sponsor logo cards (made by `scripts/make-card.py`). |
 | `images/` | The "Your brand here" placeholder, and the DGB donation images for the current address: `dgb-donation-qr.png` and `dgb-donation-card.png` (redrawn by the **Update DGB donations** Action whenever the address changes - don't edit them by hand), plus the logo they use. |
+| `recent-supporters.json`, `kofi-recent.json` | **Generated** - Recent supporters on the sponsors page. See "Recent supporters" below. |
 | `dgb-donate.json` | **Generated** by the **Update DGB donations** Action - the DGB address to donate to now, its QR code for the terminal, and the recent donations. See "DGB donations" below. |
 | `sponsors.md` | Generated. The full sponsors page, embedded on diginode.tools/sponsors. |
 | `featured.json` | Generated. The Featured Sponsors, read by DigiNode Setup, DigiNode Dashboard and the website plugin. |
@@ -114,7 +115,7 @@ The plugin's **Settings > DigiNode Sponsors** page shows the last Ko-fi payments
 1. **GitHub token:** GitHub > Settings > Developer settings > Fine-grained tokens > Generate new token. Resource owner **DigiNode-Tools**, **Only select repositories: diginode-sponsors**, permission **Contents: Read and write**, no expiry (or note the date). 
 2. **Ko-fi token:** ko-fi.com > Settings > API > Advanced > copy the **Verification Token**.
 3. In WordPress, **Settings > DigiNode Sponsors**: paste both tokens and save. Copy the **Ko-fi webhook URL** shown there.
-4. On Ko-fi's API page, paste the URL into **Webhook URL**, save, and press **Send Single Donation Test**. It should appear under "Last Ko-fi payments received" as "Not a membership payment - nothing to do".
+4. On Ko-fi's API page, paste the URL into **Webhook URL**, save, and press **Send Single Donation Test**. It should appear under "Last Ko-fi payments received" as "Test payment from Ko-fi - received, not passed on".
 
 ### Renewing the GitHub token
 
@@ -141,6 +142,14 @@ Each DGB donation should go to a new address. All of them are in the same Ledger
 **Setting the key (one time):** in Ledger Live, open the Donations account > the wrench (Edit account) > **Advanced** > copy the key (xpub), then run `gh secret set DGB_DONATION_XPUB --repo DigiNode-Tools/diginode-sponsors` and paste it. Run the Action (Actions > Update DGB donations > Run workflow), and check the address in `dgb-donate.json` is the first one Ledger Live shows under **Receive**.
 
 If the explorers are down, `dgb-donate.json` stays as it was. If it hasn't been checked for a day, the Action opens an issue. Readers stop showing recent donations once it's a week old.
+
+## Recent supporters
+
+The sponsors page shows **Patrons** in a strip at the top, and **Recent supporters** next to the tiers: people who started a monthly tier below Patron, and one-time gifts worth at least `recent.min_gift_usd` (on GitHub Sponsors, Ko-fi or in DGB), from the last `recent.days` days - the newest `recent.max` (`sponsor-info.json`).
+
+- `scripts/recent-supporters.py` builds **`recent-supporters.json`** (run by **Update sponsors**: daily, after each Ko-fi payment, and when a new DGB donation arrives). It reads GitHub Sponsors (public sponsorships only), **`kofi-recent.json`** (public Ko-fi donations and new members, added by `kofi-membership.py`), and `dgb-donate.json` (DGB donations, with their dollar value on the day they were first seen).
+- How each sponsor is shown comes from **`patron-settings.json`**: by name linked to GitHub (the default), name only, a nickname, "A supporter", without the amount, or not at all. GitHub sponsors - monthly or one-time, current or past - change it with the **Change how I'm listed** form. For a Ko-fi supporter who asks by message, add their Ko-fi key (from `kofi-members.json`, or `kofi-` + their name in lower case with dashes) by hand.
+- Monthly tiers are shown by tier name, never by amount. Messages are never shown.
 
 ## The shared sponsor text
 

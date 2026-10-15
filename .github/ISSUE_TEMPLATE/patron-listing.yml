@@ -1,12 +1,12 @@
 name: Change how I'm listed
-description: For Patrons - choose how your name appears on the DigiNode Tools sponsors page
+description: For sponsors - choose how your name appears on the DigiNode Tools sponsors page
 title: "Change how I'm listed"
 labels: ["patron-listing"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for sponsoring DigiNode Tools! Patrons are listed on the [diginode.tools/sponsors](https://diginode.tools/sponsors/) page by name, linked to their GitHub profile. You can change that here, and it takes effect within a few minutes.
+        Thank you for supporting DigiNode Tools! Public sponsors appear on the [diginode.tools/sponsors](https://diginode.tools/sponsors/) page - Patrons at the top, and everyone else under "Recent supporters" for a while after they join or donate. By default you're shown by name, linked to your GitHub profile. You can change that here, and it takes effect within a few minutes.
 
   - type: input
     id: sponsor_account
@@ -24,6 +24,25 @@ body:
       options:
         - My name, linked to my GitHub profile
         - My name only, without a link
+        - A nickname (enter it below)
+        - As "A supporter", without a name
         - Don't list me
     validations:
       required: true
+
+  - type: input
+    id: nickname
+    attributes:
+      label: Nickname
+      description: Only if you chose "A nickname". Up to 30 letters, numbers, spaces and simple punctuation.
+      placeholder: e.g. Node Runner from Norway
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: amount
+    attributes:
+      label: Amount
+      options:
+        - label: Don't show how much I gave (for one-time donations)
+          required: false

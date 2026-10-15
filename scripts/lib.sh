@@ -33,11 +33,13 @@ get_sponsor_account() {
 
 # Get the current sponsorships into $WORK/nodes.json (or from SPONSORS_FILE, for testing), then look up SPONSOR.
 # Sets SPONSOR_TIER (monthly dollars, 0 if not a monthly sponsor), SPONSOR_PRIVACY, and corrects the case of SPONSOR.
+# get_sponsorship: the sponsor's current sponsorship (or, with ACTIVE_ONLY=false, their latest one, including one-time
+# payments and sponsorships that have ended)
 get_sponsorship() {
     if [ -n "${SPONSORS_FILE:-}" ]; then
         jq . "$SPONSORS_FILE" > "$WORK/nodes.json"
     else
-        local query='query { organization(login: "'"$ORG"'") { sponsorshipsAsMaintainer(first: 100, activeOnly: true) {
+        local query='query { organization(login: "'"$ORG"'") { sponsorshipsAsMaintainer(first: 100, activeOnly: '"${ACTIVE_ONLY:-true}"') {
             nodes { privacyLevel isOneTimePayment tier { monthlyPriceInDollars isOneTime }
                     sponsorEntity { ... on User { login } ... on Organization { login } } } } } }'
         curl -fsSL --retry 3 -H "Authorization: Bearer $SPONSORS_TOKEN" -H "Content-Type: application/json" \

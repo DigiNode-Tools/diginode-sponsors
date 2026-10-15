@@ -12,6 +12,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write   # To start "Update sponsors" when a new donation arrives, for Recent supporters
 
 concurrency:
   group: dgb-donations
@@ -50,6 +51,12 @@ jobs:
             fi
             git pull --rebase --quiet && git push
           fi
+
+      - name: Update Recent supporters
+        if: steps.dgb.outputs.new_donation == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run update.yml --ref main   # A push made by this workflow doesn't start other workflows
 
       - name: Raise an issue if it keeps failing
         if: failure()

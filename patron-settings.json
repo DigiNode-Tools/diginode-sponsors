@@ -1,3 +1,3 @@
 {
-  "_comment": "How Patrons want to be listed on the sponsors page. Key = their GitHub login. listing: \"linked\" (name linked to their GitHub profile - the default), \"name\" (name only) or \"hidden\". Updated by the 'Change how I'm listed' form."
+  "_comment": "How sponsors want to be listed on the sponsors page (Patrons, and Recent supporters). Key = their GitHub login (or a Ko-fi key from kofi-members.json, added by hand). listing: \"linked\" (name linked to their GitHub profile - the default), \"name\" (name only), \"nickname\" (with \"nickname\"), \"anonymous\" (shown as \"A supporter\") or \"hidden\". \"hide_amount\": true hides how much they gave. Updated by the 'Change how I'm listed' form."
 }

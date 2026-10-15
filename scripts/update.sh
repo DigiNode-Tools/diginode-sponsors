@@ -127,12 +127,16 @@ jq --slurpfile approved "$ROOT/featured-approved.json" --slurpfile settings "$RO
                     | .login as $l | {login: $l, order: ($order | index($l)), name: ($a.name // .name), url: ($a.url // .github),
                        logo: (if $a.logo then $raw + "/" + $a.logo else null end), card: $a.logo} ]
                   | sort_by(.order) | map(del(.order)),
-        # Patrons are linked to their GitHub profile, unless they have asked not to be (patron-settings.json)
+        # Patrons are listed by name, linked to their GitHub profile, unless they have chosen otherwise
+        # (patron-settings.json: a name only, a nickname, "A supporter", or not at all)
         patrons:  [ sort_by(-.amount, (.name | ascii_downcase))[]
                     | select(.amount >= $patron_min and ((.amount >= $featured_min and $approved[.login] != null) | not))
-                    | ($settings[.login].listing // "linked") as $listing
+                    | ($settings[.login] // {}) as $s
+                    | ($s.listing // "linked") as $listing
                     | select($listing != "hidden")
-                    | {name, url: (if $listing == "linked" then .github else null end)} ]
+                    | {name: (if $listing == "nickname" and $s.nickname then $s.nickname
+                              elif $listing == "anonymous" then "A supporter" else .name end),
+                       url: (if $listing == "linked" then .github else null end)} ]
       }' "$WORK/all.json" > "$WORK/lists.json"
 
 # ------------------------------------------------------------------------------------------
