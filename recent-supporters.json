@@ -1,15 +1,5 @@
 {
   "_comment": "Made by scripts/recent-supporters.py - don't edit. Recent supporters on the sponsors page.",
-  "checked": "2026-10-29T11:05:20Z",
-  "recent": [
-    {
-      "name": "Patrick",
-      "url": "https://github.com/ZuneTracks",
-      "source": "GitHub Sponsors",
-      "time": 1785508826,
-      "tier": "Supporter",
-      "emoji": "💙",
-      "amount": null
-    }
-  ]
+  "checked": "2026-10-30T11:01:13Z",
+  "recent": []
 }
