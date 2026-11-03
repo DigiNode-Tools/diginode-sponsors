@@ -28,7 +28,6 @@
     "🌐 **DigiNode Online:** an online dashboard for monitoring all your DigiNodes in one place, securely paired using Digi-ID",
     "👛 **A terminal wallet:** send and receive DGB using a simple menu-driven interface in the terminal. Very secure, as it all happens over SSH with no exposure to the web.",
     "🪙 **DigiAsset Core support:** setting up [DigiAsset Core](https://github.com/DigiAsset-Core/DigiAsset_Core) on your DigiNode, including a web UI",
-    "💾 **Improved wallet backup and restore**",
     "⚡ **A faster, smoother DigiNode Dashboard** that stays responsive even while your node is busy syncing",
     "🧩 **Plugin system:** a plugin system for DigiNode Tools that will make it easier to add more integrations in the future",
     "🔐 **Tailscale support:** reach your DigiNode at home securely from anywhere, with no ports to open - probably as a DigiNode Tools plugin",
