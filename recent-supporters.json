@@ -1,5 +1,15 @@
 {
   "_comment": "Made by scripts/recent-supporters.py - don't edit. Recent supporters on the sponsors page.",
-  "checked": "2026-11-03T14:09:48Z",
-  "recent": []
+  "checked": "2026-11-04T23:36:29Z",
+  "recent": [
+    {
+      "name": "dgb1q…acz",
+      "url": null,
+      "source": "DGB",
+      "time": 1793833166,
+      "tier": null,
+      "emoji": "💠",
+      "amount": "19,590 DGB (≈ $61)"
+    }
+  ]
 }
