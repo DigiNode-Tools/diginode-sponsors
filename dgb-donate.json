@@ -1,6 +1,6 @@
 {
   "_comment": "Made by scripts/dgb-donations.py - don't edit. The DGB address to donate to now, its QR code for the terminal, and the most recent donations.",
-  "checked": "2026-11-04T17:57:27Z",
+  "checked": "2026-11-04T23:36:17Z",
   "address": "dgb1q6p7r32vf329l0vfpt20uelpalv292elhturw4s",
   "qr_terminal": [
     " ▄▄▄▄▄▄▄  ▄   ▄  ▄  ▄  ▄▄▄▄▄▄▄ ",
@@ -20,7 +20,15 @@
     " █▄▄▄▄▄█ █▄ █▄ ▀▀▀▄ ▄▀▀▀ ▄█▄▀  ",
     "                               "
   ],
-  "recent": [],
+  "recent": [
+    {
+      "amount": 19590.0,
+      "usd": 61.37,
+      "from": "dgb1q…acz",
+      "time": 1793833166,
+      "txid": "eeddd7f1716a377a3f8d0acc4ea55b5998e78f39caf2e34352c826b7579df212"
+    }
+  ],
   "sources": [
     "cryptoid.info"
   ]
