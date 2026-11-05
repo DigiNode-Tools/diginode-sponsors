@@ -1,6 +1,28 @@
 {
   "_comment": "Made by scripts/recent-supporters.py - don't edit. Recent supporters on the sponsors page.",
-  "checked": "2026-11-04T23:36:29Z",
+  "checked": "2026-11-05T23:27:44Z",
+  "activity": [
+    {
+      "name": "dgb1q…acz",
+      "url": null,
+      "source": "DGB",
+      "time": 1793833166,
+      "tier": null,
+      "emoji": "💠",
+      "amount": "19,590 DGB (≈ $61)",
+      "month": null
+    },
+    {
+      "name": "Patrick",
+      "url": "https://github.com/ZuneTracks",
+      "source": "GitHub Sponsors",
+      "time": 1793457626,
+      "tier": "Supporter",
+      "emoji": "💙",
+      "amount": null,
+      "month": 4
+    }
+  ],
   "recent": [
     {
       "name": "dgb1q…acz",
