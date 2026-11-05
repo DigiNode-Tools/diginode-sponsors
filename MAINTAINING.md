@@ -145,9 +145,13 @@ If the explorers are down, `dgb-donate.json` stays as it was. If it hasn't been 
 
 ## Recent supporters
 
-The sponsors page shows **Patrons** in a strip at the top, and **Recent supporters** next to the tiers: people who started a monthly tier below Patron, and one-time gifts worth at least `recent.min_gift_usd` (on GitHub Sponsors, Ko-fi or in DGB), from the last `recent.days` days - the newest `recent.max` (`sponsor-info.json`).
+The sponsors page shows **Patrons** in a strip at the top, and **Recent supporters** next to the tiers: people joining or continuing any monthly tier ("joined as a Node Runner", "Node Runner, month 3"), and one-time gifts worth at least `recent.min_gift_usd` (on GitHub Sponsors, Ko-fi or in DGB), from the last `recent.days` days - each person once at their latest event, the newest `recent.max` (`sponsor-info.json`).
 
-- `scripts/recent-supporters.py` builds **`recent-supporters.json`** (run by **Update sponsors**: daily, after each Ko-fi payment, and when a new DGB donation arrives). It reads GitHub Sponsors (public sponsorships only), **`kofi-recent.json`** (public Ko-fi donations and new members, added by `kofi-membership.py`), and `dgb-donate.json` (DGB donations, with their dollar value on the day they were first seen).
+**Months:** Ko-fi reports every payment, so its months are real payments (a member who joined before counting began shows as "renewed"). GitHub's API has no payment events, only when a sponsorship started and whether it's active, so GitHub months are worked out from the start date for active sponsorships and may be a few days off.
+
+`recent-supporters.json` has two lists: `activity` (all of the above, read by the new site) and `recent` (joins and gifts only, read by the old WordPress plugin, which words every tier entry as "became a ..."; remove it when the WordPress site is gone).
+
+- `scripts/recent-supporters.py` builds **`recent-supporters.json`** (run by **Update sponsors**: daily, after each Ko-fi payment, and when a new DGB donation arrives). It reads GitHub Sponsors (public sponsorships only), **`kofi-recent.json`** (public Ko-fi donations and monthly payments, added by `kofi-membership.py`), and `dgb-donate.json` (DGB donations, with their dollar value on the day they were first seen).
 - How each sponsor is shown comes from **`patron-settings.json`**: by name linked to GitHub (the default), name only, a nickname, "A supporter", without the amount, or not at all. GitHub sponsors - monthly or one-time, current or past - change it with the **Change how I'm listed** form. For a Ko-fi supporter who asks by message, add their Ko-fi key (from `kofi-members.json`, or `kofi-` + their name in lower case with dashes) by hand.
 - Monthly tiers are shown by tier name, never by amount. Messages are never shown.
 

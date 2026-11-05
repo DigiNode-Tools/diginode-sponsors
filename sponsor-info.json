@@ -96,9 +96,9 @@
     "recent_max": 20
   },
   "recent": {
-    "_comment": "Recent supporters on the sponsors page: people who started a monthly tier below Patron, and one-time gifts (GitHub, Ko-fi, DGB) worth at least min_gift_usd, from the last days days - the newest max of them.",
+    "_comment": "Recent supporters on the sponsors page: people joining or continuing a monthly tier, and one-time gifts (GitHub, Ko-fi, DGB) worth at least min_gift_usd, from the last days days - each person once, the newest max of them.",
     "days": 90,
-    "max": 8,
+    "max": 12,
     "min_gift_usd": 25
   },
   "dgb_card": "https://raw.githubusercontent.com/DigiNode-Tools/diginode-sponsors/main/images/dgb-donation-card.png",

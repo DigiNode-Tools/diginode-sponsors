@@ -3,8 +3,8 @@
 # Name:    kofi-membership.py
 # Purpose: Handle a public Ko-fi payment, passed on by the DigiNode Tools Sponsors WordPress plugin on diginode.tools
 #          (a repository_dispatch event, type kofi-membership). Run by the "Update sponsors" Action.
-#            - A one-off donation, or the first payment of a monthly tier below Patron, is added to kofi-recent.json, for
-#              Recent supporters on the sponsors page (recent-supporters.py).
+#            - A one-off donation, or any payment of a monthly tier, is added to kofi-recent.json, for Recent supporters
+#              on the sponsors page (recent-supporters.py). Payments are counted, so it can say "month 3".
 #            - A Patron or Featured Sponsor payment adds or extends them in kofi-members.json.
 #
 #          The plugin only passes on public payments, with just: type, whether it's the first payment of a membership,
@@ -38,8 +38,8 @@ RECENT_KEEP_DAYS = 120
 with open(os.path.join(ROOT, "sponsor-info.json"), encoding="utf-8") as _f:
     _tiers = json.load(_f)["tiers"]
 TIERS = sorted(((t["name"].split()[0].lower(), t["monthly"]) for t in _tiers if t.get("listed")), key=lambda x: -x[1])
-# The other monthly tiers (Supporter, Node Runner, Champion): (word to look for, tier name)
-OTHER_TIERS = [(t["name"].split()[0].lower(), t["name"]) for t in _tiers if not t.get("listed")]
+# Every monthly tier: (word to look for, tier name)
+ALL_TIERS = [(t["name"].split()[0].lower(), t["name"]) for t in _tiers]
 
 
 def clean_name(name):
@@ -63,7 +63,7 @@ def paid_at(payload):
 
 
 def record_recent(payload):
-    """Add a one-off donation, or someone joining a monthly tier below Patron, to kofi-recent.json."""
+    """Add a one-off donation, or a monthly tier payment, to kofi-recent.json."""
     name = clean_name(payload.get("name"))
     kind = str(payload.get("type") or "")
     tier_name = str(payload.get("tier") or "").lower()
@@ -76,8 +76,8 @@ def record_recent(payload):
                           "currency": re.sub(r"[^A-Z]", "", str(payload.get("currency") or "USD"))[:3] or "USD"})
         except (TypeError, ValueError):
             return
-    elif kind == "Subscription" and payload.get("first") and not any(word in tier_name for word, _ in TIERS):
-        entry.update({"kind": "tier", "tier": next((n for word, n in OTHER_TIERS if word in tier_name), None)})
+    elif kind == "Subscription":
+        entry.update({"kind": "tier", "tier": next((n for word, n in ALL_TIERS if word in tier_name), None)})
     else:
         return
     try:
@@ -85,10 +85,14 @@ def record_recent(payload):
             recent = json.load(f)
     except (OSError, ValueError):
         recent = {}
+    if kind == "Subscription":
+        # Month 1 when they join, then counted on. 0 = they joined before we counted, so the month isn't known.
+        earlier = [r.get("month", 1) for r in recent.get("recent", []) if r.get("key") == entry["key"] and r.get("kind") == "tier"]
+        entry["month"] = 1 if payload.get("first") else (max(earlier) + 1 if earlier and max(earlier) > 0 else 0)
     cutoff = int(datetime.datetime.now(datetime.UTC).timestamp()) - RECENT_KEEP_DAYS * 86400
     items = [r for r in recent.get("recent", []) if r.get("time", 0) >= cutoff and r != entry] + [entry]
-    recent = {"_comment": "Made by scripts/kofi-membership.py - recent public Ko-fi donations, and people who joined a "
-                          "monthly tier below Patron, for Recent supporters (recent-supporters.py).",
+    recent = {"_comment": "Made by scripts/kofi-membership.py - recent public Ko-fi donations and monthly tier payments, "
+                          "for Recent supporters (recent-supporters.py).",
               "recent": sorted(items, key=lambda r: -r["time"])[:50]}
     with open(RECENT_FILE, "w", encoding="utf-8") as f:
         json.dump(recent, f, indent=2, ensure_ascii=False)
