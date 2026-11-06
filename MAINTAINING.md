@@ -222,3 +222,13 @@ scripts/update.sh --input test.json    # test with made-up sponsorships
 ISSUE_AUTHOR=someone ISSUE_BODY="$(cat issue.md)" SPONSORS_FILE=test.json scripts/featured-request.sh
 ISSUE_AUTHOR=someone ISSUE_BODY="$(cat issue.md)" SPONSORS_FILE=test.json scripts/patron-listing.sh
 ```
+
+## Sponsors Preview and Developer Mode (`access.json`)
+
+DigiNode Setup reads `access.json` from here, so these can change without a DigiNode Tools release. Allow about 5 minutes for GitHub's cache.
+
+- **`dev_machines`**: machines allowed to use Developer Mode (`--dgntdev`, `--dgntbranch=`). On any other machine those flags refuse and print the machine's fingerprint: add that to the list.
+- **`preview.github_client_id`**: the public ID of the GitHub OAuth app used to check sponsors (not a secret; the app has Device Flow turned on).
+- **`preview.kofi_code_sha256`**: fingerprint of the code in the Ko-fi tiers' welcome messages. To change the code, run `scripts/new-preview-code.py`, paste the code into the Ko-fi tiers, commit and push.
+
+This is a thank you, not a lock: the code of DigiNode Tools is public, so anyone determined can get round it.
