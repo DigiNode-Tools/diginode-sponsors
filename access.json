@@ -1,10 +1,9 @@
 {
-  "_comment": "Read by DigiNode Setup. See MAINTAINING.md, Sponsors Preview. dev_machines: one-way fingerprints of the machines allowed to use Developer Mode (--dgntdev, --dgntbranch=). preview: github_client_id is the public ID of the 'DigiNode Tools Sponsors Preview' GitHub OAuth app; kofi_code_sha256 is a fingerprint of the code in the Ko-fi welcome messages (made by scripts/new-preview-code.py).",
+  "_comment": "Read by DigiNode Setup. See MAINTAINING.md, Sponsors Preview. dev_machines: one-way fingerprints of the machines allowed to use Developer Mode (--dgntdev, --dgntbranch=). preview: github_client_id is the public ID of the 'DigiNode Tools Sponsors Preview' GitHub OAuth app.",
   "dev_machines": [
     "18b53bdf24088adcd833273055cf4642c59f7a4ff250053a998f22b25ad8cc8c"
   ],
   "preview": {
-    "github_client_id": "Ov23li1FbVGUg8r59ROv",
-    "kofi_code_sha256": "1cb438a1227d74fa8b15fe2a867e73653730990c0eff1774a45dde637d9e3a92"
+    "github_client_id": "Ov23li1FbVGUg8r59ROv"
   }
 }

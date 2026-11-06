@@ -229,6 +229,6 @@ DigiNode Setup reads `access.json` from here, so these can change without a Digi
 
 - **`dev_machines`**: machines allowed to use Developer Mode (`--dgntdev`, `--dgntbranch=`). On any other machine those flags refuse and print the machine's fingerprint: add that to the list.
 - **`preview.github_client_id`**: the public ID of the GitHub OAuth app used to check sponsors (not a secret; the app has Device Flow turned on).
-- **`preview.kofi_code_sha256`**: fingerprint of the code in the Ko-fi tiers' welcome messages. To change the code, run `scripts/new-preview-code.py`, paste the code into the Ko-fi tiers, commit and push.
+- **Ko-fi:** not available yet. Personal monthly codes are planned with the new website.
 
 This is a thank you, not a lock: the code of DigiNode Tools is public, so anyone determined can get round it.
