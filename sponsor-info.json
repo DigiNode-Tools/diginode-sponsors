@@ -39,9 +39,10 @@
   "featured_showcase": {
     "_comment": "The Featured Sponsor showcase on the sponsors page (snippets/featured-showcase.md). The website turns the places into cards and adds how many places are free.",
     "title": "🚀 Featured Sponsor: put your brand in front of DigiByte node runners",
-    "intro": "The most prominent way to support DigiNode Tools. Ideal for businesses and projects in the DigiByte community: your logo and link appear in **four places**, seen by the people who set up and run DigiByte Nodes.",
+    "intro": "The most prominent way to support DigiNode Tools. Ideal for businesses and projects in the DigiByte community: your logo and link appear in **five places**, seen by the people who set up and run DigiByte Nodes.",
     "places": [
       {"emoji": "🏠", "title": "The diginode.tools home page", "text": "Your logo and link on the home page, seen by everyone discovering DigiNode Tools."},
+      {"emoji": "📰", "title": "Every blog post", "text": "Your logo and link beside every post, seen by everyone reading about what's new."},
       {"emoji": "💙", "title": "The sponsors page", "text": "Your logo at the very top of this page, above everything else."},
       {"emoji": "📦", "title": "The DigiNode Tools GitHub page", "text": "Your logo in the README - the first thing node runners and developers see on GitHub."},
       {"emoji": "🖥️", "title": "Inside DigiNode Tools itself", "text": "Your name and link in the terminal, shown every time DigiNode Setup finishes and DigiNode Dashboard closes."}
@@ -73,8 +74,8 @@
     },
     {
       "emoji": "🚀", "name": "Featured Sponsor", "monthly": 300, "listed": "featured",
-      "perk": "for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page and sponsors page, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
-      "description": "For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page and sponsors page, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
+      "perk": "for businesses and projects. Your logo and link on the [diginode.tools](https://diginode.tools) home page, sponsors page and every blog post, and on the [DigiNode Tools GitHub page](https://github.com/DigiNode-Tools/diginode-tools), plus your name and link shown to everyone using DigiNode Setup and DigiNode Dashboard. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
+      "description": "For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page, sponsors page and every blog post, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.",
       "github_extra": "After sponsoring, add your logo here: https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml",
       "kofi_extra": "After joining, add your logo with this form: go.diginode.tools/featured-sponsor (or send me your logo, name and website in a message). Tip: if you have a GitHub account, you can also sponsor on GitHub Sponsors, which takes no fee.",
       "kofi_welcome": "Thank you so much for becoming a Featured Sponsor of DigiNode Tools! To add your logo and link, fill in this short form, giving your Ko-fi name: go.diginode.tools/featured-sponsor (it needs a free GitHub account). Or just reply with your logo (PNG, JPG or WebP, ideally at least 400 pixels wide), and the name and website you'd like shown. I'll check them and add you as soon as I can. - Olly"
