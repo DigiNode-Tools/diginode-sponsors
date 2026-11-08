@@ -57,7 +57,7 @@ Directly funds a meaningful part of my time on DigiNode Tools. As a thank you, y
 **🚀 Featured Sponsor (only 3 places)** - $300 a month
 
 ```text
-For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page and sponsors page, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.
+For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page, sponsors page and every blog post, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded.
 
 After sponsoring, add your logo here: https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml
 ```
@@ -144,7 +144,7 @@ Thank you so much for becoming a Patron of DigiNode Tools! If you made your supp
 Description:
 
 ```text
-Only 3 places. For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page and sponsors page, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After joining, add your logo with this form: go.diginode.tools/featured-sponsor (or send me your logo, name and website in a message). Tip: if you have a GitHub account, you can also sponsor on GitHub Sponsors, which takes no fee.
+Only 3 places. For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page, sponsors page and every blog post, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. After joining, add your logo with this form: go.diginode.tools/featured-sponsor (or send me your logo, name and website in a message). Tip: if you have a GitHub account, you can also sponsor on GitHub Sponsors, which takes no fee.
 ```
 
 Welcome message:
