@@ -10,4 +10,4 @@ The most prominent way to support DigiNode Tools. Ideal for businesses and proje
 
 **$300 a month.** *Only 3 places, so every Featured Sponsor stands out.* Featured Sponsors are approved by me, and refunded if not approved.
 
-**[Become a Featured Sponsor on GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools)** or **[on Ko-fi](https://ko-fi.com/diginode)**, then add your logo (see below).
+**[Become a Featured Sponsor on GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools)**, then add your logo (see below).

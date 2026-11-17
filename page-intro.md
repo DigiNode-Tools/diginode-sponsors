@@ -70,13 +70,13 @@ The most prominent way to support DigiNode Tools. Ideal for businesses and proje
 
 **$300 a month.** *Only 3 places, so every Featured Sponsor stands out.* Featured Sponsors are approved by me, and refunded if not approved.
 
-**[Become a Featured Sponsor on GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools)** or **[on Ko-fi](https://ko-fi.com/diginode)**, then add your logo (see below).
+**[Become a Featured Sponsor on GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools)**, then add your logo (see below).
 <!-- /sponsors:featured-showcase -->
 
 ### Featured Sponsors: adding your logo
 
-1. Sponsor DigiNode Tools at the **Featured Sponsor** tier, with a **public** sponsorship, on [GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools) or [Ko-fi](https://ko-fi.com/diginode).
-2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. If you sponsor on Ko-fi, give the name on your Ko-fi support (you need a free GitHub account for the form - or just send me your logo, name and website in a Ko-fi message). Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
+1. Sponsor DigiNode Tools at the **Featured Sponsor** tier, with a **public** sponsorship, on [GitHub Sponsors](https://github.com/sponsors/DigiNode-Tools).
+2. Fill in the **[Become a Featured Sponsor](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=featured-sponsor.yml)** form. Give the name and website you want shown, and drag in your logo (PNG, JPG or WebP, under 1 MB, ideally at least 400 pixels wide on a transparent background).
 3. Your request is checked automatically, usually within a minute. If anything needs fixing, a reply on your request explains what. Edit your request to check it again.
 4. Once it's approved, your logo and link appear within a few minutes.
 
@@ -84,7 +84,7 @@ Your logo is shown on a white card, the same size as the other Featured Sponsors
 
 ### How you're listed
 
-**Patrons** are shown at the top of this page. Everyone else appears under **Recent supporters** for 90 days after joining a monthly tier, or giving $25 or more at once - on GitHub Sponsors, on Ko-fi, or in DGB. Only public support is listed, and messages are never shown.
+**Patrons** are shown at the top of this page. Everyone else appears under **Recent supporters** for 90 days after joining a monthly tier on GitHub Sponsors, or giving $25 or more at once - on GitHub Sponsors, on Ko-fi, or in DGB. Only public support is listed, and messages are never shown.
 
 On **GitHub Sponsors**, you're listed by name, linked to your GitHub profile. To use a nickname instead, appear as "A supporter", hide how much you gave, or not be listed at all, use the **[Change how I'm listed](https://github.com/DigiNode-Tools/diginode-sponsors/issues/new?template=patron-listing.yml)** form. It takes effect within a few minutes.
 

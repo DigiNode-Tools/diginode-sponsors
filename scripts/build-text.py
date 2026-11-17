@@ -79,7 +79,7 @@ write("snippets/featured-showcase.md",
       f"### {fs['title']}\n\n{fs['intro']}\n\n"
       + "\n".join(f"- {p['emoji']} **{p['title']}** - {p['text']}" for p in fs["places"]) + "\n\n"
       f"**{money(featured['monthly'])} a month.** {fs['footer'].replace('{places}', str(places))}\n\n"
-      f"**[Become a Featured Sponsor on GitHub Sponsors]({links['github']})** or **[on Ko-fi]({links['kofi']})**, "
+      f"**[Become a Featured Sponsor on GitHub Sponsors]({links['github']})**, "
       "then add your logo (see below).\n")
 
 # The DGB address changes after each donation (see scripts/dgb-donations.py), so the address is never written out
