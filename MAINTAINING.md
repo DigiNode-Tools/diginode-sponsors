@@ -92,6 +92,8 @@ scripts/make-card.py their-logo.png logos/their-github-login.png
 
 ## Ko-fi members
 
+> **Not used since 17 November 2026:** Ko-fi has no monthly tiers any more (monthly sponsorship is on GitHub Sponsors only; Ko-fi is for one-time donations). The code below is kept in case that changes; one-time Ko-fi donations still reach Recent supporters through `kofi-recent.json`.
+
 Patrons and Featured Sponsors who join on [Ko-fi](https://ko-fi.com/diginode) are listed automatically:
 
 1. Ko-fi sends every payment to the **DigiNode Tools Sponsors** WordPress plugin on diginode.tools (Ko-fi's webhook).
@@ -229,6 +231,6 @@ DigiNode Setup reads `access.json` from here, so these can change without a Digi
 
 - **`dev_machines`**: machines allowed to use Developer Mode (`--dgntdev`, `--dgntbranch=`). On any other machine those flags refuse and print the machine's fingerprint: add that to the list.
 - **`preview.github_client_id`**: the public ID of the GitHub OAuth app used to check sponsors (not a secret; the app has Device Flow turned on).
-- **Ko-fi:** not available yet. Personal monthly codes are planned with the new website.
+- **Ko-fi:** no. Since 17 November 2026 monthly sponsorship is on GitHub Sponsors only, and Ko-fi is for one-time donations (Olly's choice: Ko-fi can't tell DigiNode Tools who is a member). The Ko-fi membership code (kofi-membership.py, kofi-members.json) is left in place but no longer used.
 
 This is a thank you, not a lock: the code of DigiNode Tools is public, so anyone determined can get round it.

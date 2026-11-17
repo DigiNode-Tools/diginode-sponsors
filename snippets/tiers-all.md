@@ -6,4 +6,6 @@
 | 🌟 **Patron** | $100 | Directly funds a meaningful part of my time on DigiNode Tools. As a thank you, you'll be listed on the diginode.tools/sponsors page. |
 | 🚀 **Featured Sponsor** | $300 | For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page, sponsors page and every blog post, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. Only 3 places. |
 
+Every monthly tier includes the Sponsors Preview: get each new release of DigiNode Tools two weeks before everyone else.
+
 Or give once: $25, $50, $100, $250 on GitHub Sponsors, $25, $50, $100 on Ko-fi - or any amount you like on either.

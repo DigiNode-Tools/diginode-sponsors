@@ -28,6 +28,7 @@ tiers = info["tiers"]
 featured = next(t for t in tiers if t.get("listed") == "featured")
 patron = next(t for t in tiers if t.get("listed") == "patron")
 places = info["featured_places"]
+preview = info.get("sponsors_preview") or {}
 
 
 def plain(md):
@@ -60,15 +61,15 @@ write("snippets/plans.md", info["plans_intro"] + "\n\n" + "\n".join(f"- {p}" for
 write("snippets/tiers.md",
       f"- **{patron['name']}** ({money(patron['monthly'])} a month): {patron['perk']}\n"
       f"- **{featured['name']}** ({money(featured['monthly'])} a month, only {places} places): {featured['perk']} "
-      f"After sponsoring, [add your logo using this form]({links['featured_form']}) (on Ko-fi, give your Ko-fi name "
-      f"in the form, or send me your logo, name and website in a Ko-fi message).\n")
+      f"After sponsoring, [add your logo using this form]({links['featured_form']}).\n")
 
 rows = ["| Tier | Monthly | |", "|---|---|---|"]
 for t in tiers:
     extra = f" Only {places} places." if t is featured else ""
     rows.append(f"| {t['emoji']} **{t['name']}** | {money(t['monthly'])} | {t['description']}{extra} |")
 one = info["one_time"]
-write("snippets/tiers-all.md", "\n".join(rows) + "\n\n"
+all_tiers = (preview["all_tiers"] + "\n\n") if preview.get("all_tiers") else ""
+write("snippets/tiers-all.md", "\n".join(rows) + "\n\n" + all_tiers +
       f"Or give once: {', '.join(money(n) for n in one['github'])} on GitHub Sponsors, "
       f"{', '.join(money(n) for n in one['kofi'])} on Ko-fi - or any amount you like on either.\n")
 
@@ -111,9 +112,11 @@ gh_intro = f"""### Help me spend more time on DigiNode Tools
 
 {info['pitch']}
 
+{preview.get('all_tiers', '')}
+
 **What your support pays for, and what I'm building next: [diginode.tools/sponsors]({links['page']})**
 
-You can also support me on [Ko-fi]({links['kofi']}), with the same tiers.
+Prefer to give once? You can also make a one-time donation on [Ko-fi]({links['kofi']}).
 
 #### Donate DigiByte
 
@@ -128,7 +131,7 @@ Olly
 
 kofi_about = (f"Hi, I'm Olly. {info['pitch']}\n\n"
               f"What your support pays for, and what I'm building next: {links['page'].replace('https://', '')}\n\n"
-              f"You can also sponsor me on GitHub, with the same tiers: {links['github'].replace('https://', '')}\n\n"
+              f"{info['kofi_monthly']} {links['github'].replace('https://', '')}\n\n"
               "Thank you!\nOlly")
 if len(kofi_about) > 900:
     raise SystemExit(f"ERROR: the Ko-fi About text is {len(kofi_about)} characters - Ko-fi allows 900. Shorten the pitch.")
@@ -137,7 +140,7 @@ kofi_post = (f"{info['pitch']}\n\n"
              f"See what your support pays for, and what I'm building next: {links['page']}\n\n"
              "Donate DigiByte\n"
              f"Prefer to donate DGB? The address to send it to, with its QR code, is on the sponsors page: {links['page']}\n\n"
-             f"You can also sponsor me on GitHub, with the same tiers: {links['github']}\n\n"
+             f"{info['kofi_monthly']} {links['github']}\n\n"
              "Thank you for your support!\nOlly")
 
 out = [f"<!-- Made from sponsor-info.json by scripts/build-text.py - edit sponsor-info.json, not this file. -->",
@@ -156,7 +159,13 @@ out = [f"<!-- Made from sponsor-info.json by scripts/build-text.py - edit sponso
        ""]
 for t in tiers:
     name = f"{t['emoji']} {t['name']}" + (f" (only {places} places)" if t is featured else "")
-    desc = plain(t["description"]) + (("\n\n" + t["github_extra"]) if t.get("github_extra") else "")
+    desc = plain(t["description"])
+    if preview.get("perk"):
+        desc += "\n\n" + preview["perk"]
+    if t.get("github_extra"):
+        desc += "\n\n" + t["github_extra"]
+    if len(desc) > 750:
+        raise SystemExit(f"ERROR: the GitHub Sponsors description of {t['name']} is {len(desc)} characters - GitHub allows 750.")
     out += [f"**{name}** - {money(t['monthly'])} a month", "", block(desc), ""]
 out += [f"One-time tiers: {', '.join(money(n) for n in one['github'])} (plus a custom amount).", "",
         "## Ko-fi", "",
@@ -164,16 +173,10 @@ out += [f"One-time tiers: {', '.join(money(n) for n in one['github'])} (plus a c
         block(kofi_about), "",
         "[Settings > Payment](https://ko-fi.com/settings?tab=payment) > **suggested amounts**: "
         f"{', '.join(str(n) for n in one['kofi'])} (US $).", "",
-        "[Memberships](https://ko-fi.com/memberships/settings) - each tier (name, price, description, welcome message):", ""]
-for t in tiers:
-    desc = plain(t["description"])
-    if t is featured:
-        desc = f"Only {places} places. {desc}"
-    if t.get("kofi_extra"):
-        desc += " " + t["kofi_extra"]
-    welcome = t.get("kofi_welcome", info["kofi_welcome"])
-    limit = f" - tick **Limit number of people who can join** and set it to the number of free places (at most {places})" if t is featured else ""
-    out += [f"**{t['emoji']} {t['name']}** - {money(t['monthly'])} a month{limit}", "",
-            "Description:", "", block(desc), "", "Welcome message:", "", block(welcome), ""]
+        "[Memberships](https://ko-fi.com/memberships/settings): **no monthly tiers** - monthly sponsorship is on "
+        "GitHub Sponsors only. Ko-fi is for one-time donations. (Turning monthly tips off completely costs 5% of tips, so "
+        "the tiers are kept as unpublished drafts instead.)", "",
+        "[Settings](https://ko-fi.com/settings) > **Thank you message** (sent after each tip):", "",
+        block(info["kofi_thanks"]), ""]
 out += ["The pinned post (**Support DigiNode Tools**, with the Ko-fi banner as its image - not the DGB card, which would go out of date when the address changes):", "", block(kofi_post), ""]
 write("platform-text.md", "\n".join(out))

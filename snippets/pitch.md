@@ -1,1 +1,1 @@
-DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
+DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with minimal technical knowledge needed. It's free to use, and its code is public, so anyone can audit it and see exactly what it does on their node. The more people who sponsor me, the more time I can devote to it.
