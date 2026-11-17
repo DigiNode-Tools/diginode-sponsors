@@ -11,7 +11,7 @@
 ## Support DigiNode Tools
 
 <!-- sponsors:pitch -->
-DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with no technical knowledge needed. It's free, its code is public so anyone can see exactly what it does, and I build and maintain it in my spare time. The more people who sponsor me, the more time I can devote to it.
+DigiNode Tools lets anyone set up, monitor and manage a DigiByte Node, with minimal technical knowledge needed. It's free to use, and its code is public, so anyone can audit it and see exactly what it does on their node. The more people who sponsor me, the more time I can devote to it.
 <!-- /sponsors:pitch -->
 
 *Thank you for your support, Olly*
@@ -51,7 +51,7 @@ These are some of the things I'd like to build, as time allows. The more support
 <a href="https://github.com/sponsors/DigiNode-Tools"><img src="https://img.shields.io/badge/Sponsor%20on-GitHub-0066CC?style=for-the-badge&labelColor=002352&logo=githubsponsors&logoColor=EA4AAA" alt="Sponsor DigiNode Tools on GitHub"></a> <a href="https://ko-fi.com/diginode"><img src="https://img.shields.io/badge/Support%20on-Ko--fi-0066CC?style=for-the-badge&labelColor=002352&logo=kofi&logoColor=FF5E5B" alt="Support DigiNode Tools on Ko-fi"></a>
 <!-- /sponsors:badge -->
 
-Sponsor monthly, or make a one-time donation, from as little as you like. The tiers are the same on GitHub Sponsors and Ko-fi:
+Sponsor monthly on GitHub Sponsors, from $10 a month. Or make a one-time donation of any amount, on GitHub Sponsors or Ko-fi. The monthly tiers:
 
 <!-- sponsors:tiers-all -->
 | Tier | Monthly | |
@@ -61,6 +61,8 @@ Sponsor monthly, or make a one-time donation, from as little as you like. The ti
 | 🏆 **Champion** | $50 | Helps me devote serious time to new features and improvements for DigiNode Tools. A big thank you! |
 | 🌟 **Patron** | $100 | Directly funds a meaningful part of my time on DigiNode Tools. As a thank you, you'll be listed on the diginode.tools/sponsors page. |
 | 🚀 **Featured Sponsor** | $300 | For businesses and projects who want to reach the people running DigiByte Nodes. Your logo and link appear on the diginode.tools home page, sponsors page and every blog post, the DigiNode Tools GitHub page, and in DigiNode Tools itself: a one-line text link shown when DigiNode Setup finishes and DigiNode Dashboard closes. Featured Sponsors are approved by me. If your sponsorship isn't approved, it will be refunded. Only 3 places. |
+
+Every monthly tier includes the Sponsors Preview: get each new release of DigiNode Tools two weeks before everyone else.
 
 Or give once: $25, $50, $100, $250 on GitHub Sponsors, $25, $50, $100 on Ko-fi - or any amount you like on either.
 <!-- /sponsors:tiers-all -->
